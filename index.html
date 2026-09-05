@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Pushpa</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#3a1220;
+    --rose:#a61e4d;
+    --crimson:#e63950;
+    --blush:#fbd9e3;
+    --cream:#fff3f5;
+    --gold:#d9a441;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    font-family:'Quicksand', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+
+  h1,h2,h3{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    color:var(--rose);
+  }
+
+  /* ---------- floating hearts background ---------- */
+  #heartField{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:1;
+  }
+  .bgheart{
+    position:absolute;
+    bottom:-10%;
+    font-size:1.4rem;
+    color:var(--blush);
+    opacity:.7;
+    animation:floatUp linear infinite;
+  }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:.6; }
+    90%{ opacity:.5; }
+    100%{ transform:translateY(-110vh) rotate(25deg); opacity:0; }
+  }
+
+  section{
+    position:relative;
+    z-index:2;
+    max-width:640px;
+    margin:0 auto;
+    padding:5rem 1.5rem;
+  }
+
+  /* ---------- hero / envelope ---------- */
+  #hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:2rem;
+  }
+
+  .envelope-wrap{
+    cursor:pointer;
+    user-select:none;
+  }
+
+  .envelope{
+    position:relative;
+    width:220px;
+    height:150px;
+  }
+  .envelope-body{
+    position:absolute;
+    inset:0;
+    background:var(--rose);
+    border-radius:6px;
+    box-shadow:0 18px 40px rgba(166,30,77,.25);
+  }
+  .envelope-flap{
+    position:absolute;
+    top:0; left:0; right:0;
+    height:0;
+    border-left:110px solid transparent;
+    border-right:110px solid transparent;
+    border-top:78px solid var(--crimson);
+    transform-origin:top;
+    transition:transform .7s cubic-bezier(.6,.1,.2,1);
+    z-index:3;
+  }
+  .envelope-heart{
+    position:absolute;
+    top:52px; left:50%;
+    transform:translateX(-50%);
+    font-size:1.6rem;
+    color:var(--cream);
+    z-index:2;
+  }
+  .envelope-wrap.open .envelope-flap{ transform:rotateX(180deg); }
+  .envelope-wrap.open .envelope-heart{ animation:pop .5s .3s both; }
+  @keyframes pop{
+    0%{ transform:translateX(-50%) scale(0); }
+    70%{ transform:translateX(-50%) scale(1.3); }
+    100%{ transform:translateX(-50%) scale(1); }
+  }
+
+  .hero-hint{
+    margin-top:2rem;
+    font-size:.95rem;
+    color:var(--rose);
+    opacity:.75;
+    letter-spacing:.02em;
+  }
+
+  .hero-title{
+    font-size:clamp(2rem,6vw,3rem);
+    margin-top:1.5rem;
+    max-width:16ch;
+    opacity:0;
+    transform:translateY(12px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .hero-title.show{ opacity:1; transform:none; }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:2.5rem;
+    font-size:1.4rem;
+    color:var(--rose);
+    animation:bob 1.8s ease-in-out infinite;
+    opacity:0;
+    transition:opacity .6s ease .3s;
+  }
+  .scroll-cue.show{ opacity:.6; }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(8px); }
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .reveal.show{ opacity:1; transform:none; }
+
+  /* ---------- letter ---------- */
+  #letter{
+    text-align:center;
+  }
+  #letter h2{ font-size:clamp(1.6rem,4.5vw,2.1rem); margin-bottom:1.8rem; }
+  .letter-nepali{
+    display:block;
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    color:var(--crimson);
+    font-size:1.1rem;
+    margin-bottom:.4rem;
+  }
+  .letter-body{
+    background:#fff;
+    border-radius:18px;
+    padding:2.2rem 1.8rem;
+    box-shadow:0 20px 45px rgba(166,30,77,.08);
+    font-size:1.05rem;
+    text-align:left;
+    border:1px solid var(--blush);
+  }
+  .letter-body p{ margin-bottom:1rem; }
+  .letter-body p:last-child{ margin-bottom:0; }
+  .signature{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    color:var(--rose);
+    font-size:1.2rem;
+    display:block;
+    margin-top:1.2rem;
+  }
+
+  /* ---------- gallery ---------- */
+  #gallery h2{ text-align:center; margin-bottom:2.5rem; }
+  .polaroids{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:1.8rem 1.4rem;
+  }
+  .polaroid{
+    background:#fff;
+    padding:.7rem .7rem 1.4rem;
+    border-radius:4px;
+    box-shadow:0 14px 30px rgba(58,18,32,.15);
+    width:160px;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .polaroid:nth-child(odd){ transform:rotate(-4deg); }
+  .polaroid:nth-child(even){ transform:rotate(3deg); }
+  .polaroid:hover{
+    transform:rotate(0deg) scale(1.06);
+    box-shadow:0 20px 40px rgba(58,18,32,.22);
+    z-index:5;
+  }
+  .polaroid .frame{
+    width:100%;
+    aspect-ratio:1/1.05;
+    border-radius:2px;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--blush),#fff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--rose);
+    font-size:1.8rem;
+  }
+  .polaroid img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .polaroid .cap{
+    display:block;
+    text-align:center;
+    margin-top:.6rem;
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    color:var(--ink);
+    font-size:.85rem;
+  }
+
+  /* ---------- reasons ---------- */
+  #reasons h2{ text-align:center; margin-bottom:2rem; }
+  .reason-list{ display:flex; flex-direction:column; gap:1rem; }
+  .reason{
+    display:flex;
+    align-items:flex-start;
+    gap:.9rem;
+    background:#fff;
+    border-radius:14px;
+    padding:1.1rem 1.3rem;
+    border:1px solid var(--blush);
+  }
+  .reason .mark{
+    color:var(--crimson);
+    font-size:1.2rem;
+    line-height:1.4;
+  }
+
+  /* ---------- proposal ---------- */
+  #proposal{
+    text-align:center;
+    min-height:80vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  #proposal h2{
+    font-size:clamp(1.9rem,6vw,2.6rem);
+    margin-bottom:2.2rem;
+  }
+  .btn-row{
+    position:relative;
+    display:flex;
+    gap:1.4rem;
+    align-items:center;
+    justify-content:center;
+    min-height:70px;
+    width:100%;
+  }
+  .yes-btn, .no-btn{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:.9rem 2rem;
+    border-radius:40px;
+    border:none;
+    cursor:pointer;
+  }
+  .yes-btn{
+    background:var(--crimson);
+    color:#fff;
+    box-shadow:0 14px 30px rgba(230,57,80,.35);
+    transition:transform .25s ease;
+  }
+  .yes-btn:hover{ transform:scale(1.08); }
+  .no-btn{
+    background:#fff;
+    color:var(--rose);
+    border:1px solid var(--blush);
+    position:relative;
+    transition:transform .18s ease;
+  }
+  .yes-grown{ font-size:1.4rem; padding:1.2rem 2.6rem; }
+
+  #result{
+    margin-top:2rem;
+    font-family:'Playfair Display', serif;
+    font-size:1.6rem;
+    color:var(--rose);
+    opacity:0;
+    transform:scale(.9);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  #result.show{ opacity:1; transform:none; }
+
+  footer{
+    text-align:center;
+    padding:2.5rem 1rem 3rem;
+    font-size:.85rem;
+    color:var(--rose);
+    opacity:.55;
+    position:relative; z-index:2;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="heartField"></div>
+
+<section id="hero">
+  <div class="envelope-wrap" id="envelopeWrap">
+    <div class="envelope">
+      <div class="envelope-body"></div>
+      <div class="envelope-heart">&#10084;</div>
+      <div class="envelope-flap"></div>
+    </div>
+  </div>
+  <p class="hero-hint" id="heroHint">tap the envelope</p>
+  <h1 class="hero-title" id="heroTitle">I have something to tell you, Pushpa.</h1>
+  <div class="scroll-cue" id="scrollCue">&#8595;</div>
+</section>
+
+<section id="letter" class="reveal">
+  <span class="letter-nepali">&#2350; &#2340;&#2367;&#2350;&#2368;&#2354;&#2366;&#2312; &#2350;&#2366;&#2351;&#2366; &#2327;&#2352;&#2381;&#2331;&#2369;</span>
+  <h2>A small letter, before the big question</h2>
+  <div class="letter-body">
+    <p>Pushpa, this page is a poor imitation of everything I actually mean when I say I love you — but I wanted to put it somewhere you could keep it.</p>
+    <p>You already know the small things: your voice on a bad-connection call still fixes my whole day, and I count down the time until we're in the same place again. What you maybe don't know is how often I catch myself planning a future with you in it, without even meaning to.</p>
+    <p>So here it is, in pink and red because that's how loud I wanted to say it: I love you.</p>
+    <span class="signature">— Sabin</span>
+  </div>
+</section>
+
+<section id="gallery" class="reveal">
+  <h2>Us, so far</h2>
+  <div class="polaroids" id="polaroids"></div>
+</section>
+
+<section id="reasons" class="reveal">
+  <h2>A few reasons, out of many</h2>
+  <div class="reason-list" id="reasonList"></div>
+</section>
+
+<section id="proposal" class="reveal">
+  <h2>So, Pushpa —<br>will you be mine?</h2>
+  <div class="btn-row">
+    <button class="yes-btn" id="yesBtn">Yes</button>
+    <button class="no-btn" id="noBtn">No</button>
+  </div>
+  <div id="result">&#10084; She said yes. &#10084;</div>
+</section>
+
+<footer>made with too much heart by Sabin</footer>
+
+<script>
+/* ============ EASY CUSTOMIZATION ============
+   Change the values below — nothing else needs editing. */
+const CONFIG = {
+  herName: "Pushpa",
+  yourName: "Sabin",
+  // Put image files in the SAME folder as this html file and list
+  // their filenames here. If a file is missing, a placeholder heart
+  // shows instead, so you can preview the layout before adding photos.
+  photos: [
+    { src: "photo1.jpg", caption: "that day" },
+    { src: "photo2.jpg", caption: "my favorite" },
+    { src: "photo3.jpg", caption: "us" },
+    { src: "photo4.jpg", caption: "can't stop smiling here" }
+  ],
+  reasons: [
+    "The way you say my name when you're pretending to be annoyed at me.",
+    "You remember the small things I mention once and forget I said.",
+    "You make ordinary days feel like they're worth telling people about.",
+    "You're honest with me even when it's easier not to be.",
+    "Every plan I make for the future has you in it, on its own."
+  ]
+};
+/* ============================================= */
+
+// floating background hearts
+const field = document.getElementById('heartField');
+const HEART_COUNT = window.innerWidth < 600 ? 10 : 18;
+for(let i=0;i<HEART_COUNT;i++){
+  const h = document.createElement('div');
+  h.className = 'bgheart';
+  h.innerHTML = Math.random() > .5 ? '&#10084;' : '&#10084;&#65039;';
+  h.style.left = Math.random()*100 + 'vw';
+  h.style.fontSize = (0.8 + Math.random()*1.4) + 'rem';
+  const duration = 10 + Math.random()*12;
+  h.style.animationDuration = duration + 's';
+  h.style.animationDelay = (-Math.random()*duration) + 's';
+  field.appendChild(h);
+}
+
+// envelope open
+const wrap = document.getElementById('envelopeWrap');
+const heroTitle = document.getElementById('heroTitle');
+const heroHint = document.getElementById('heroHint');
+const scrollCue = document.getElementById('scrollCue');
+wrap.addEventListener('click', () => {
+  if(wrap.classList.contains('open')) return;
+  wrap.classList.add('open');
+  heroHint.style.opacity = 0;
+  setTimeout(() => {
+    heroTitle.classList.add('show');
+    scrollCue.classList.add('show');
+  }, 500);
+}, { once:true });
+
+// build polaroids with graceful fallback if photo file is missing
+const polaroidWrap = document.getElementById('polaroids');
+CONFIG.photos.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'polaroid';
+  const frame = document.createElement('div');
+  frame.className = 'frame';
+  frame.innerHTML = '&#128444;&#65039;';
+  const img = new Image();
+  img.onload = () => { frame.innerHTML = ''; frame.appendChild(img); };
+  img.onerror = () => { /* keep placeholder icon */ };
+  img.src = p.src;
+  img.alt = p.caption;
+  const cap = document.createElement('span');
+  cap.className = 'cap';
+  cap.textContent = p.caption;
+  card.appendChild(frame);
+  card.appendChild(cap);
+  polaroidWrap.appendChild(card);
+});
+
+// build reasons
+const reasonList = document.getElementById('reasonList');
+CONFIG.reasons.forEach(r => {
+  const row = document.createElement('div');
+  row.className = 'reason';
+  row.innerHTML = '<span class="mark">&#10084;</span><span>' + r + '</span>';
+  reasonList.appendChild(row);
+});
+
+// scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold:.2 });
+revealEls.forEach(el => io.observe(el));
+
+// proposal buttons
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const result = document.getElementById('result');
+const btnRow = document.querySelector('.btn-row');
+let dodges = 0;
+
+function dodgeNo(){
+  dodges++;
+  yesBtn.classList.add('yes-grown');
+  const maxX = btnRow.clientWidth * 0.32;
+  const maxY = 24;
+  const x = (Math.random()*2-1) * maxX;
+  const y = (Math.random()*2-1) * maxY;
+  noBtn.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  if(dodges > 3){ noBtn.textContent = 'please?'; }
+}
+noBtn.addEventListener('mouseenter', dodgeNo);
+noBtn.addEventListener('click', (e) => { e.preventDefault(); dodgeNo(); });
+
+yesBtn.addEventListener('click', () => {
+  result.classList.add('show');
+  burstHearts();
+});
+
+function burstHearts(){
+  for(let i=0;i<24;i++){
+    const h = document.createElement('div');
+    h.textContent = '\u2764\uFE0F';
+    h.style.position = 'fixed';
+    h.style.left = '50%';
+    h.style.top = '60%';
+    h.style.fontSize = (1 + Math.random()*1.5) + 'rem';
+    h.style.zIndex = 50;
+    h.style.pointerEvents = 'none';
+    h.style.transition = 'transform 1.4s cubic-bezier(.2,.7,.3,1), opacity 1.4s ease';
+    document.body.appendChild(h);
+    const angle = Math.random()*Math.PI*2;
+    const dist = 120 + Math.random()*260;
+    requestAnimationFrame(() => {
+      h.style.transform = 'translate(' + Math.cos(angle)*dist + 'px,' + (Math.sin(angle)*dist - 200) + 'px) rotate(' + (Math.random()*360) + 'deg)';
+      h.style.opacity = '0';
+    });
+    setTimeout(() => h.remove(), 1500);
+  }
+}
+</script>
+
+</body>
+</html>

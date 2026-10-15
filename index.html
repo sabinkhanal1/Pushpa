@@ -484,21 +484,30 @@ for(let i=0;i<HEART_COUNT;i++){
   field.appendChild(h);
 }
 /* Envelope opens the entire website */
-const wrap = document.getElementById('envelopeWrap');
-const heroTitle = document.getElementById('heroTitle');
-const heroHint = document.getElementById('heroHint');
-const scrollCue = document.getElementById('scrollCue');
+wrap.addEventListener('click', async () => {
+  const music = document.getElementById('romanticMusic');
 
-wrap.addEventListener('click', () => {
-const music = document.getElementById('romanticMusic');
- music.volume = 0.35;
- music.play().catch(error => {
-    console.log('Music could not start:', error);
-  });
+  music.volume = 0.35;
+
+  try {
+    await music.play();
+    console.log('Music is playing!');
+  } catch (error) {
+    console.error('Music failed to play:', error);
+  }
+
   if (wrap.classList.contains('open')) return;
 
   wrap.classList.add('open');
   heroHint.style.opacity = '0';
+
+  setTimeout(() => {
+    document.body.classList.add('unlocked');
+    heroTitle.classList.add('show');
+    scrollCue.classList.add('show');
+    document.getElementById('letter').classList.add('show');
+  }, 700);
+});
 
   // Unlock the website after the envelope opens
   setTimeout(() => {

@@ -474,21 +474,20 @@ wrap.addEventListener('click', () => {
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {
   const card = document.createElement('div');  
-const card = document.createElement('div');
-card.className = 'polaroid';
-
-if (
-  p.caption.includes('Sometimes I stare at your pictures, smile for a moment, freeze for a moment,and then miss you a little harder.') ||
-  p.caption.includes('Long Distance Call') ||
-  p.caption.includes('Our First Video Call')
-) {
-  card.classList.add('video-call-photo');
-}
-
+const polaroidWrap = document.getElementById('polaroids');
+CONFIG.photos.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'polaroid';
+ if (
+    p.caption.includes('Sometimes I stare at your pictures, smile for a moment, freeze for a moment, and then miss you a little harder.') ||
+    p.caption.includes('Long Distance Call') ||
+    p.caption.includes('Our First Video Call')
+  ) {
+    card.classList.add('video-call-photo');
+  }
 const frame = document.createElement('div');
-  const frame = document.createElement('div');
   frame.className = 'frame';
-  frame.innerHTML = '&#128444;&#65039;';
+  frame.innerHTML = '&#128244;&#65039;';
   const img = new Image();
   img.onload = () => { frame.innerHTML = ''; frame.appendChild(img); };
   img.onerror = () => { /* keep placeholder icon */ };
@@ -501,7 +500,6 @@ const frame = document.createElement('div');
   card.appendChild(cap);
   polaroidWrap.appendChild(card);
 });
-
 // build reasons
 const reasonList = document.getElementById('reasonList');
 CONFIG.reasons.forEach(r => {

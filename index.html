@@ -355,6 +355,29 @@
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; transition:none !important; }
   }
+  
+/* Keep the love letter and all other sections hidden initially */
+#letter,
+#gallery,
+#reasons,
+#proposal,
+footer {
+  display: none;
+}
+
+/* Reveal the website only after the envelope is clicked */
+body.unlocked #letter,
+body.unlocked #gallery,
+body.unlocked #reasons,
+body.unlocked #proposal,
+body.unlocked footer {
+  display: block;
+}
+
+/* Keep the proposal section's flex layout */
+body.unlocked #proposal {
+  display: flex;
+}
 </style>
 </head>
 <body>
@@ -455,21 +478,26 @@ for(let i=0;i<HEART_COUNT;i++){
   field.appendChild(h);
 }
 
-// envelope open
+/* Envelope opens the entire website */
 const wrap = document.getElementById('envelopeWrap');
 const heroTitle = document.getElementById('heroTitle');
 const heroHint = document.getElementById('heroHint');
 const scrollCue = document.getElementById('scrollCue');
 wrap.addEventListener('click', () => {
-  if(wrap.classList.contains('open')) return;
+  if (wrap.classList.contains('open')) return;
   wrap.classList.add('open');
-  heroHint.style.opacity = 0;
+  heroHint.style.opacity = '0';
+
+  // Unlock the website after the envelope opens
   setTimeout(() => {
+    document.body.classList.add('unlocked');
     heroTitle.classList.add('show');
     scrollCue.classList.add('show');
-  }, 500);
-}, { once:true });
 
+    // Reveal the letter first, then allow scrolling to the photos
+    document.getElementById('letter').classList.add('show');
+  }, 700);
+}, { once: true });
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {

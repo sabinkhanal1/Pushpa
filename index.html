@@ -431,7 +431,7 @@ body.unlocked #proposal {
 
 <audio
   id="romanticMusic"
-  src="rleberch-soft-piano-soft-piano-music-504418.mp3"
+  src="leberch-soft-piano-soft-piano-music-504418.mp3"
   loop
   preload="auto"> </audio>
 
@@ -485,11 +485,13 @@ for(let i=0;i<HEART_COUNT;i++){
 }
 /* Envelope opens the entire website */
 wrap.addEventListener('click', async () => {
+  const wrap = document.getElementById('envelopeWrap');
+const heroTitle = document.getElementById('heroTitle');
+const heroHint = document.getElementById('heroHint');
+const scrollCue = document.getElementById('scrollCue');
   const music = document.getElementById('romanticMusic');
-
-  music.volume = 0.35;
-
-  try {
+music.volume = 0.35;
+ try {
     await music.play();
     console.log('Music is playing!');
   } catch (error) {
@@ -508,18 +510,6 @@ wrap.addEventListener('click', async () => {
     document.getElementById('letter').classList.add('show');
   }, 700);
 });
-
-  // Unlock the website after the envelope opens
-  setTimeout(() => {
-    document.body.classList.add('unlocked');
-    heroTitle.classList.add('show');
-    scrollCue.classList.add('show');
-
-    // Reveal the letter first, then allow scrolling to the photos
-    document.getElementById('letter').classList.add('show');
-  }, 700);
-}, { once: true });
-
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {

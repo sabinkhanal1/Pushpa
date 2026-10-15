@@ -67,6 +67,155 @@
 
   /* ---------- hero / envelope ---------- */
  
+/* ===== PUSHPA'S NEPALI LOVE ENVELOPE ===== */
+
+.envelope-wrap {
+  position: relative;
+  isolation: isolate;
+  padding: 24px;
+}
+
+/* Traditional Nepali-inspired decorative frame */
+.envelope-wrap::before {
+  content: "❀  ✦  ❀  ✦  ❀";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: #d9ad60;
+  font-size: 17px;
+  letter-spacing: 5px;
+  text-shadow: 0 0 12px #e8bd77;
+  animation: nepaliGlow 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Dhaka-inspired woven pattern */
+.envelope-body {
+  background-color: #8b1028;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 10px,
+      rgba(238, 193, 112, 0.18) 10px 12px,
+      transparent 12px 20px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      rgba(238, 193, 112, 0.13) 10px 12px,
+      transparent 12px 20px
+    );
+  border: 2px solid #e5bd73;
+  box-shadow:
+    0 0 0 5px #641021,
+    0 0 0 7px #d9ad60,
+    0 12px 35px rgba(70, 0, 15, 0.4);
+}
+
+/* Golden traditional-looking envelope flap */
+.envelope-flap {
+  filter: drop-shadow(0 3px 2px rgba(45, 0, 10, 0.25));
+}
+
+/* Personal golden seal for Pushpa */
+.envelope-heart {
+  top: 48px;
+  left: 50%;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #a51b36 0 53%, #d6a44f 55% 61%, #781026 64%);
+  border: 2px solid #f1d393;
+  box-shadow:
+    0 0 0 3px rgba(225, 184, 100, 0.35),
+    0 0 22px rgba(255, 205, 111, 0.65);
+  color: #ffe7ad;
+  font-size: 0;
+  z-index: 5;
+  transform: translateX(-50%);
+}
+
+.envelope-heart::after {
+  content: "पुष्पा";
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #ffe7ad;
+  text-shadow: 0 1px 3px #4d0715;
+}
+
+/* Floating hearts when the envelope opens */
+.envelope-wrap.open .envelope-heart {
+  animation: nepaliSealPop 0.65s 0.15s both;
+}
+
+.envelope-wrap.open .envelope-heart::before {
+  content: "♥  ♥";
+  position: absolute;
+  font-size: 21px;
+  color: #ffb4c4;
+  white-space: nowrap;
+  animation: loveHeartsRise 1.5s 0.2s ease-out both;
+  pointer-events: none;
+}
+
+@keyframes nepaliGlow {
+  0%, 100% {
+    opacity: 0.7;
+    text-shadow: 0 0 5px #d9ad60;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 18px #ffd98e;
+  }
+}
+
+@keyframes nepaliSealPop {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  45% {
+    transform: translateX(-50%) scale(1.18);
+  }
+  100% {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0;
+  }
+}
+
+@keyframes loveHeartsRise {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-95px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Mobile screen adjustments */
+@media (max-width: 480px) {
+  .envelope-wrap {
+    transform: scale(0.88);
+  }
+
+  .envelope-wrap::before {
+    font-size: 14px;
+    letter-spacing: 3px;
+  }
+}
+
   /* ---------- hero / envelope ---------- */
   #hero{
     min-height:100vh;

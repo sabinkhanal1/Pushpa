@@ -473,19 +473,18 @@ wrap.addEventListener('click', () => {
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {
-  const card = document.createElement('div');  
-const polaroidWrap = document.getElementById('polaroids');
-CONFIG.photos.forEach(p => {
   const card = document.createElement('div');
   card.className = 'polaroid';
- if (
+
+  if (
     p.caption.includes('Sometimes I stare at your pictures, smile for a moment, freeze for a moment, and then miss you a little harder.') ||
     p.caption.includes('Long Distance Call') ||
     p.caption.includes('Our First Video Call')
   ) {
     card.classList.add('video-call-photo');
   }
-const frame = document.createElement('div');
+
+  const frame = document.createElement('div');
   frame.className = 'frame';
   frame.innerHTML = '&#128244;&#65039;';
   const img = new Image();

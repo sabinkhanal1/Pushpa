@@ -250,13 +250,68 @@
   background: #fff;
 }
 
-/* Smaller cards on phones */
-@media (max-width: 480px) {
+/
+/* Mobile gallery: exactly 2 photos per row */
+@media (max-width: 600px) {
+  #gallery {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .polaroids {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+    align-items: start;
+  }
+
   .polaroid {
-    width: min(165px, calc(50vw - 2rem));
+    width: 100%;
+    min-width: 0;
+    padding: 6px 6px 12px;
+    transform: none;
+  }
+
+  .polaroid:nth-child(odd),
+  .polaroid:nth-child(even) {
+    transform: none;
+  }
+
+  .polaroid:hover {
+    transform: scale(1.02);
+  }
+
+  .polaroid .cap {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* Keep regular photos proportional */
+  .polaroid .frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .polaroid .frame > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Show the complete video-call screenshots */
+  .polaroid.video-call-photo .frame {
+    aspect-ratio: auto;
+    height: auto;
+  }
+
+  .polaroid.video-call-photo .frame > img {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    object-fit: contain;
   }
 }
-
   .polaroid .cap{
     display:block;
     text-align:center;

@@ -217,16 +217,46 @@
     box-shadow:0 20px 40px rgba(58,18,32,.22);
     z-index:5;
   }
- .polaroid .frame {
-    aspect-ratio: 9 / 16;
-    overflow: hidden;
-    background: #fff;
+ 
+/* Fix gallery photos: fill the frame */
+.polaroid {
+  width: 190px;
 }
-  .polaroid img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+
+.polaroid .frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.polaroid .frame > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Keep the entire video-call screenshot visible */
+.polaroid.video-call-photo .frame {
+  aspect-ratio: 3 / 4;
+}
+
+.polaroid.video-call-photo .frame > img {
+  object-fit: contain;
+  background: #fff;
+}
+
+/* Smaller cards on phones */
+@media (max-width: 480px) {
+  .polaroid {
+    width: min(165px, calc(50vw - 2rem));
   }
+}
+
   .polaroid .cap{
     display:block;
     text-align:center;
@@ -396,7 +426,7 @@ const CONFIG = {
     { src: "287000de-a6e9-41c0-b8c0-f2d7da575e1e.jpeg", caption: "Adorable 🧸"},
     { src: "31aaed01-7a09-451c-afdd-1c51a7cacda4.jpeg", caption: "Sweetheart 💕"},
     { src: "5218f339-957d-42ca-956b-f0d3a5608047.jpeg", caption: "Cutie with a killer smile 🫠"},
-    { src: "Warm Video Call in Red and Gold.png", caption: "The Late Night Calls"},
+    { src: "Warm Video Call in Red and Gold.png", caption: "Sometimes I stare at your pictures, smile for a moment, freeze for a moment,and then miss you a little harder."},
     { src: "Screenshot_2026-09-01-09-37-58-427_com.facebook.orca.jpg", caption: "Long Distance Call 🥹❤️"},
     { src: "Screenshot_2026-08-09-23-54-56-147_com.facebook.orca.jpg", caption: "Our First Video Call ❤️"},
   ],
@@ -443,8 +473,19 @@ wrap.addEventListener('click', () => {
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {
-  const card = document.createElement('div');
-  card.className = 'polaroid';
+  const card = document.createElement('div');  
+const card = document.createElement('div');
+card.className = 'polaroid';
+
+if (
+  p.caption.includes('Sometimes I stare at your pictures, smile for a moment, freeze for a moment,and then miss you a little harder.') ||
+  p.caption.includes('Long Distance Call') ||
+  p.caption.includes('Our First Video Call')
+) {
+  card.classList.add('video-call-photo');
+}
+
+const frame = document.createElement('div');
   const frame = document.createElement('div');
   frame.className = 'frame';
   frame.innerHTML = '&#128444;&#65039;';

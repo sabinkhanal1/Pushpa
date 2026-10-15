@@ -492,6 +492,25 @@ const music = document.getElementById('romanticMusic');
 
 wrap.addEventListener('click', async () => {
   music.volume = 0.35;
+  try {
+    await music.play();
+    console.log('Music is playing!');
+  } catch (error) {
+    console.error('Music failed to play:', error);
+  }
+
+  if (wrap.classList.contains('open')) return;
+
+  wrap.classList.add('open');
+  heroHint.style.opacity = '0';
+
+  setTimeout(() => {
+    document.body.classList.add('unlocked');
+    heroTitle.classList.add('show');
+    scrollCue.classList.add('show');
+    document.getElementById('letter').classList.add('show');
+  }, 700);
+});
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
 CONFIG.photos.forEach(p => {

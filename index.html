@@ -5,6 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Pushpa</title>
 <style>
+  /* Login screen */
+  #loginGate {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #3b071b, #8b1748, #e65b83);
+    font-family: Arial, sans-serif;
+  }
+
+  #loginGate .login-card {
+    width: 100%;
+    max-width: 380px;
+    box-sizing: border-box;
+    padding: 32px 25px;
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  #loginGate .login-heart {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  #loginGate h2 {
+    color: #a20e4d;
+    margin: 0 0 10px;
+    font-size: 27px;
+  }
+
+  #loginGate p {
+    color: #6b5360;
+    margin-bottom: 22px;
+  }
+
+  #loginGate input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    margin: 12px 0;
+    border: 1px solid #e6b4c8;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  #loginGate input:focus {
+    border-color: #d63375;
+    box-shadow: 0 0 0 3px rgba(214, 51, 117, 0.12);
+  }
+
+  #loginGate button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #d63375;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #loginGate button:hover {
+    background: #ad205a;
+  }
+
+  #loginError {
+    color: #c01842 !important;
+    font-size: 14px;
+    min-height: 18px;
+    margin: 12px 0 0 !important;
+  }
+
+  #loginWelcome {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999998;
+    padding: 12px 20px;
+    border-radius: 25px;
+    background: #fff;
+    color: #a20e4d;
+    box-shadow: 0 4px 18px #0002;
+    font-weight: bold;
+    text-align: center;
+    max-width: 85%;
+  }
+
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600;700&display=swap');
 
   :root{
@@ -958,6 +1056,37 @@ body.unlocked #proposal {
 </style>
 </head>
 <body>
+ 
+<div id="loginGate">
+  <div class="login-card">
+    <div class="login-heart">❤️</div>
+    <h2>Made With Love</h2>
+    <p>This little world is just for Pushpa and Sabin 💖</p>
+
+    <form id="loginForm">
+      <input
+        type="text"
+        id="loginUsername"
+        placeholder="Enter your username"
+        autocomplete="username"
+        required
+      >
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit">Unlock Our World ❤️</button>
+      <p id="loginError" role="alert"></p>
+    </form>
+  </div>
+</div>
+
+<div id="loginWelcome" role="status"></div>
 
 <div id="heartField"></div>
 
@@ -1259,9 +1388,76 @@ loveExpressBtn.addEventListener('click', () => {
     loveExpressBtn.textContent = 'Opened with love ❤️';
   }, 650);
 });
-
 </script>
+  
+  <script>
+(() => {
+  const accounts = {
+    Pushpa: "20601023",
+    Sabin: "20601015"
+  };
 
+  const gate = document.getElementById("loginGate");
+  const form = document.getElementById("loginForm");
+  const usernameInput = document.getElementById("loginUsername");
+  const passwordInput = document.getElementById("loginPassword");
+  const errorMessage = document.getElementById("loginError");
+  const welcome = document.getElementById("loginWelcome");
+
+  // Keep the login active only for this browser tab session.
+  // This is convenience, NOT real security.
+  try {
+    const savedUser = sessionStorage.getItem("loveSiteUser");
+
+    if (savedUser && Object.prototype.hasOwnProperty.call(accounts, savedUser)) {
+      showWebsite(savedUser);
+    }
+  } catch (error) {
+    // If session storage is unavailable, the login form still works.
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+
+    if (
+      Object.prototype.hasOwnProperty.call(accounts, username) &&
+      accounts[username] === password
+    ) {
+      try {
+        sessionStorage.setItem("loveSiteUser", username);
+      } catch (error) {
+        // Continue even if session storage is unavailable.
+      }
+
+      showWebsite(username);
+    } else {
+      errorMessage.textContent =
+        "Wrong username or password. Please try again ❤️";
+
+      passwordInput.value = "";
+      passwordInput.focus();
+    }
+  });
+
+  function showWebsite(username) {
+    gate.style.display = "none";
+
+    welcome.textContent =
+      username === "Pushpa"
+        ? "Welcome, Pushpa ❤️ This was made for you!"
+        : "Welcome back, Sabin ❤️ Developer access";
+
+    welcome.style.display = "block";
+
+    setTimeout(() => {
+      welcome.style.display = "none";
+    }, 3500);
+  }
+})();
+  </script>
 </body>
 </html>
 

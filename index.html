@@ -762,6 +762,7 @@
   /* Keep the love letter and all other sections hidden initially */
 #letter,
 #gallery,
+#loveExpress,
 #reasons,
 #proposal,
 footer {
@@ -771,6 +772,7 @@ footer {
 /* Reveal the website only after the envelope is clicked */
 body.unlocked #letter,
 body.unlocked #gallery,
+body.unlocked #loveExpress,
 body.unlocked #reasons,
 body.unlocked #proposal,
 body.unlocked footer {
@@ -782,6 +784,129 @@ body.unlocked #proposal {
   display: flex;
 }
 
+/* LOVE EXPRESS — ADDITIONAL STYLES */
+#loveExpress {
+  text-align: center;
+}
+
+.love-express-intro {
+  margin: 0 auto 1.8rem;
+  max-width: 420px;
+}
+
+#loveExpressBtn {
+  border: 0;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+}
+
+#loveExpressReveal {
+  margin-top: 2rem;
+}
+
+#loveExpressReveal h3 {
+  margin-bottom: 1rem;
+}
+
+.love-express-message {
+  background: #fff;
+  border: 1px solid var(--blush);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin: 1rem 0 2rem;
+}
+
+.love-express-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.love-express-photos img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: 6px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(166, 30, 77, .16);
+  animation: loveExpressAppear .7s both;
+}
+
+.love-express-photos img:nth-child(even) {
+  animation-delay: .15s;
+}
+
+.love-express-signature {
+  margin-top: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--rose);
+}
+
+#loveExpressFlash {
+  position: fixed;
+  inset: 0;
+  background: #fff1f6;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+#loveExpressFlash.flash {
+  animation: loveExpressFlash .65s ease-out;
+}
+
+#loveExpressBurst {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.love-express-particle {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  font-size: 1.8rem;
+  animation: loveExpressFly 1.8s ease-out forwards;
+}
+
+@keyframes loveExpressFlash {
+  0% { opacity: 0; }
+  20% { opacity: .95; }
+  100% { opacity: 0; }
+}
+
+@keyframes loveExpressFly {
+  from {
+    transform: translate(-50%, -50%) scale(.3) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--x), var(--y)) scale(1.4) rotate(300deg);
+    opacity: 0;
+  }
+}
+
+@keyframes loveExpressAppear {
+  from { opacity: 0; transform: translateY(18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 360px) {
+  .love-express-photos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .love-express-photos img {
+    animation: none;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -817,6 +942,43 @@ body.unlocked #proposal {
   <div class="polaroids" id="polaroids"></div>
 </section>
 
+<!-- LOVE EXPRESS SURPRISE -->
+<section id="loveExpress" class="reveal">
+  <h2>💌 Love Express — Just for You</h2>
+  <p class="love-express-intro">
+    Pushpa, our little chats hold so many feelings.
+    Ready for a surprise from me? ❤️
+  </p>
+
+  <button id="loveExpressBtn" class="yes-btn">
+    Open My Love Express 💖
+  </button>
+
+  <div id="loveExpressReveal" hidden>
+    <h3>Every little chat means something to me 🥹❤️</h3>
+    <p class="love-express-message">
+      From our little conversations to our video calls,
+      every moment with you becomes a memory I want to keep.
+      Distance cannot stop me from smiling because of you.
+      You are special to me, Pushpa. ❤️
+    </p>
+
+    <div class="love-express-photos">
+      <img src="1.jpg" alt="Our special memory 1">
+      <img src="2.jpg" alt="Our special memory 2">
+      <img src="3.jpg" alt="Our special memory 3">
+      <img src="5.jpg" alt="Our special memory 4">
+      <img src="6.jpg" alt="Our special memory 5">
+      <img src="7.jpg" alt="Our special memory 6">
+    </div>
+
+    <p class="love-express-signature">Forever sending love, — Sabin ❤️</p>
+  </div>
+</section>
+
+<div id="loveExpressFlash"></div>
+<div id="loveExpressBurst"></div>
+
 <section id="reasons" class="reveal">
   <h2>A few reasons, out of many</h2>
   <div class="reason-list" id="reasonList"></div>
@@ -838,7 +1000,6 @@ body.unlocked #proposal {
   src="leberch-soft-piano-soft-piano-music-504418.mp3"
   loop
   preload="auto"> </audio>
-
 <script>
 /* ============ EASY CUSTOMIZATION ============
    Change the values below — nothing else needs editing. */
@@ -1006,6 +1167,51 @@ function burstHearts(){
     setTimeout(() => h.remove(), 1500);
   }
 }
+  
+/* LOVE EXPRESS — SURPRISE INTERACTION */
+const loveExpressBtn = document.getElementById('loveExpressBtn');
+const loveExpressReveal = document.getElementById('loveExpressReveal');
+const loveExpressFlash = document.getElementById('loveExpressFlash');
+const loveExpressBurst = document.getElementById('loveExpressBurst');
+
+loveExpressBtn.addEventListener('click', () => {
+  if (!loveExpressReveal.hidden) return;
+
+  loveExpressFlash.classList.remove('flash');
+  void loveExpressFlash.offsetWidth;
+  loveExpressFlash.classList.add('flash');
+
+  const symbols = ['❤️', '💖', '💕', '🌹', '🌸', '💐', '✨', '💗'];
+
+  for (let i = 0; i < 55; i++) {
+    const particle = document.createElement('span');
+    particle.className = 'love-express-particle';
+    particle.textContent = symbols[
+      Math.floor(Math.random() * symbols.length)
+    ];
+
+    particle.style.setProperty('--x', `${Math.random() * 100 - 50}vw`);
+    particle.style.setProperty('--y', `${Math.random() * 100 - 50}vh`);
+    particle.style.animationDelay = `${Math.random() * 0.3}s`;
+
+    loveExpressBurst.appendChild(particle);
+    particle.addEventListener('animationend', () => particle.remove());
+  }
+
+  loveExpressBtn.disabled = true;
+  loveExpressBtn.textContent = 'A little surprise for you, Pushpa ❤️';
+
+  setTimeout(() => {
+    loveExpressReveal.hidden = false;
+    loveExpressReveal.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+    loveExpressBtn.disabled = false;
+    loveExpressBtn.textContent = 'Opened with love ❤️';
+  }, 650);
+});
+
 </script>
 
 </body>

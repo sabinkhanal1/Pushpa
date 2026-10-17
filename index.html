@@ -1053,6 +1053,30 @@ body.unlocked #proposal {
   }
 }
   
+/* Love Express mobile photo fix */
+#loveExpress .love-express-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  min-width: 0;
+  gap: 10px;
+}
+
+#loveExpress .love-express-photos img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-width: 0;
+  object-fit: contain;
+}
+
+@media (max-width: 360px) {
+  #loveExpress .love-express-photos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1255,7 +1279,7 @@ wrap.addEventListener('click', async () => {
 });
 // build polaroids with graceful fallback if photo file is missing
 const polaroidWrap = document.getElementById('polaroids');
-CONFIG.photos.forEach(p => {
+CONFIG.photos.forEach((p) => {
   const card = document.createElement('div');
   card.className = 'polaroid';
 
@@ -1269,19 +1293,42 @@ CONFIG.photos.forEach(p => {
 
   const frame = document.createElement('div');
   frame.className = 'frame';
-  frame.innerHTML = '&#128244;&#65039;';
-  const img = new Image();
-  img.onload = () => { frame.innerHTML = ''; frame.appendChild(img); };
-  img.onerror = () => { /* keep placeholder icon */ };
-  img.src = p.src;
+
+  const placeholder = document.createElement('span');
+  placeholder.textContent = '❤️';
+  placeholder.style.cssText =
+    'display:flex;align-items:center;justify-content:center;' +
+    'width:100%;height:100%;font-size:2rem;';
+
+  frame.appendChild(placeholder);
+
+  const img = document.createElement('img');
   img.alt = p.caption;
+  img.loading = 'eager';
+  img.decoding = 'async';
+
+  img.onload = () => {
+    placeholder.remove();
+    img.style.opacity = '1';
+  };
+
+  img.onerror = () => {
+    console.error('Failed to load photo:', img.src);
+    placeholder.textContent = 'Photo unavailable 💔';
+  };
+
+  frame.appendChild(img);
+  img.src = p.src;
+
   const cap = document.createElement('span');
   cap.className = 'cap';
   cap.textContent = p.caption;
+
   card.appendChild(frame);
   card.appendChild(cap);
   polaroidWrap.appendChild(card);
 });
+
 // build reasons
 const reasonList = document.getElementById('reasonList');
 CONFIG.reasons.forEach(r => {

@@ -1339,10 +1339,22 @@ CONFIG.reasons.forEach(r => {
 });
 
 // scroll reveal
+  
+/* Scroll reveal — improved for mobile screens */
 const revealEls = document.querySelectorAll('.reveal');
+
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
-}, { threshold:.2 });
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      io.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0,
+  rootMargin: '0px 0px 50px 0px'
+});
+
 revealEls.forEach(el => io.observe(el));
 
 // proposal buttons

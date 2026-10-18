@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://forpushpagiftfromlover.khanalsabin1.com.np/sitemap.xml

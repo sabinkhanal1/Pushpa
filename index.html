@@ -1457,12 +1457,13 @@ loveExpressBtn.addEventListener('click', () => {
 });
 </script>
   
-  <script>
+  
+<script>
 (() => {
-  const accounts = {
-    Pushpa: "20601023",
-    Sabin: "20601015"
-  };
+  const API_URL =
+    "https://pushpa-login-api.sabinkhanal809.workers.dev/api/login";
+
+  const allowedUsers = ["Pushpa", "Sabin"];
 
   const gate = document.getElementById("loginGate");
   const form = document.getElementById("loginForm");
@@ -1471,43 +1472,70 @@ loveExpressBtn.addEventListener('click', () => {
   const errorMessage = document.getElementById("loginError");
   const welcome = document.getElementById("loginWelcome");
 
-  // Keep the login active only for this browser tab session.
-  // This is convenience, NOT real security.
   try {
     const savedUser = sessionStorage.getItem("loveSiteUser");
 
-    if (savedUser && Object.prototype.hasOwnProperty.call(accounts, savedUser)) {
+    if (allowedUsers.includes(savedUser)) {
       showWebsite(savedUser);
     }
   } catch (error) {
-    // If session storage is unavailable, the login form still works.
+    // Login can still work if session storage is unavailable.
   }
 
-  form.addEventListener("submit", function (event) {
+  form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
 
-    if (
-      Object.prototype.hasOwnProperty.call(accounts, username) &&
-      accounts[username] === password
-    ) {
-      try {
-        sessionStorage.setItem("loveSiteUser", username);
-      } catch (error) {
-        // Continue even if session storage is unavailable.
+    if (!allowedUsers.includes(username)) {
+      showError("Wrong username or password. Please try again ❤️");
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+    if (button) button.disabled = true;
+
+    errorMessage.textContent = "Checking login... ❤️";
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success === true) {
+        try {
+          sessionStorage.setItem("loveSiteUser", username);
+        } catch (error) {
+          // Continue if session storage is unavailable.
+        }
+
+        passwordInput.value = "";
+        errorMessage.textContent = "";
+        showWebsite(username);
+      } else {
+        passwordInput.value = "";
+        showError("Wrong username or password. Please try again ❤️");
+        passwordInput.focus();
       }
-
-      showWebsite(username);
-    } else {
-      errorMessage.textContent =
-        "Wrong username or password. Please try again ❤️";
-
-      passwordInput.value = "";
-      passwordInput.focus();
+    } catch (error) {
+      showError(
+        "Unable to connect securely right now. Please try again later ❤️"
+      );
+    } finally {
+      if (button) button.disabled = false;
     }
   });
+
+  function showError(message) {
+    errorMessage.textContent = message;
+  }
 
   function showWebsite(username) {
     gate.style.display = "none";
@@ -1524,7 +1552,8 @@ loveExpressBtn.addEventListener('click', () => {
     }, 3500);
   }
 })();
-  </script>
+</script>
+
 </body>
 </html>
 

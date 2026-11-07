@@ -1,1 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#210d1d">
+<meta name="description" content="A magical, personalised love tarot and oracle experience made by Sabin for Pushpa.">
+<title>Secret Love Universe ✦ Sabin & Pushpa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1b0b19;--wine:#371226;--wine2:#571b38;--rose:#d98ba8;--blush:#f4dce6;--gold:#dcb66e;--gold2:#f4d99c;--cream:#fff4e7;--muted:#cbb7c2;--line:rgba(235,197,139,.28);--panel:rgba(59,22,45,.82)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--cream);font-family:Quicksand, sans-serif;background:radial-gradient(ellipse at 50% 0%,#59233f 0%,#2a1025 42%,#160914 100%);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.28;background-image:radial-gradient(#f6dba5 1px,transparent 1px),radial-gradient(#e7a9c3 1px,transparent 1px);background-size:83px 83px,137px 137px;background-position:0 0,31px 49px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+button,select{font:inherit}button{cursor:pointer}
+a{color:inherit}
+#lockScreen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#210d1d,#5b1b3c);text-align:center}
+.lock-card{max-width:440px;padding:35px 28px;border:1px solid var(--line);border-radius:24px;background:rgba(35,13,29,.92);box-shadow:0 25px 80px #0008}
+.lock-card .lock-icon{font-size:42px;color:var(--gold2)}.lock-card h1{font:600 34px 'Cormorant Garamond',serif;color:var(--gold2);margin:8px 0}.lock-card p{color:var(--blush);line-height:1.7}
+.primary-btn,.soft-btn,.tab-btn,.mode-btn{border:1px solid var(--line);border-radius:999px;padding:12px 18px;color:var(--cream);background:linear-gradient(135deg,#8c365e,#5c1b3f);font-weight:700;transition:.2s ease}
+.primary-btn:hover,.soft-btn:hover,.tab-btn:hover,.mode-btn:hover{transform:translateY(-2px);box-shadow:0 9px 24px #0004;border-color:var(--gold)}
+.soft-btn{background:rgba(255,255,255,.06)}
+#universeApp{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:26px 22px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.back-link{color:var(--blush);text-decoration:none;font-size:13px;font-weight:700}.back-link:hover{color:var(--gold2)}.top-mark{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2)}
+.hero{text-align:center;padding:25px 12px 25px}.moon{font-size:38px;color:var(--gold2);text-shadow:0 0 25px #f4d99c99}.eyebrow{color:var(--rose);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;margin:8px 0}.hero h1{font:600 clamp(42px,8vw,76px)/.98 'Cormorant Garamond',serif;color:var(--gold2);margin:8px 0 12px;text-shadow:0 5px 25px #0006}.hero p{max-width:660px;margin:0 auto;color:#ead8df;line-height:1.8;font-size:14px}
+.gold-rule{height:1px;max-width:500px;margin:25px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.tab-bar{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:14px 0 25px}.tab-btn{padding:10px 15px;font-size:12px;background:rgba(255,255,255,.045)}.tab-btn.active{background:linear-gradient(135deg,#b75b7c,#6f2348);border-color:var(--gold2);color:white;box-shadow:0 0 20px #dcb66e22}
+.panel{border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(76,29,55,.88),rgba(35,14,31,.94));box-shadow:0 22px 65px #0005;padding:clamp(18px,4vw,34px);min-height:430px}.tab-panel[hidden]{display:none}.section-head{text-align:center;margin-bottom:22px}.section-head .symbol{font-size:30px}.section-head h2{font:600 clamp(30px,5vw,42px) 'Cormorant Garamond',serif;color:var(--gold2);margin:4px 0}.section-head p{color:var(--muted);font-size:13px;line-height:1.7;max-width:650px;margin:0 auto}
+.mode-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}.mode-btn{padding:9px 16px;font-size:12px;background:rgba(255,255,255,.055)}.mode-btn.active{background:#9c4268;border-color:var(--gold2)}
+.select-wrap{display:flex;justify-content:center;margin:16px auto}.select-wrap select{max-width:100%;min-width:min(340px,100%);padding:12px 15px;border-radius:12px;color:var(--cream);background:#32142a;border:1px solid var(--line);outline:none}.select-wrap select option{background:#32142a;color:white}
+.draw-instruction{text-align:center;color:var(--gold2);font-size:12px;letter-spacing:.08em;margin:12px 0 17px}
+.deck-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;max-width:850px;margin:0 auto}.tarot-card{aspect-ratio:2/3;min-width:0;border:0;background:transparent;padding:0;perspective:900px}.card-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}.tarot-card.flipped .card-inner{transform:rotateY(180deg)}.card-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;backface-visibility:hidden;border-radius:11px;overflow:hidden}.card-back{border:1px solid #e2bd78;background:radial-gradient(circle at center,#783252,#301329 72%);box-shadow:inset 0 0 0 4px #48203a,inset 0 0 0 6px #d6ae6a,0 8px 18px #0005}.card-back:before{content:"";position:absolute;inset:9px;border:1px solid #d7b77d;border-radius:5px;background:repeating-conic-gradient(from 0deg at 50% 50%,transparent 0 12deg,#e3bd7930 12deg 13deg,transparent 13deg 25deg)}.back-star{position:relative;font-size:clamp(22px,4vw,38px);color:var(--gold2);text-shadow:0 0 15px #f5dfa0}.back-caption{position:relative;font:600 10px 'Cormorant Garamond',serif;letter-spacing:.15em;color:#f4dcae;margin-top:6px}.card-front{transform:rotateY(180deg);padding:8px 5px;border:2px solid #e9c77f;background:radial-gradient(circle at 50% 25%,#a75875,#50203e 65%,#281126);box-shadow:inset 0 0 0 4px #69334d,inset 0 0 0 6px #edcf91}.card-front:before{content:"";position:absolute;inset:7px;border:1px solid #f3d99f;border-radius:5px;pointer-events:none}.card-symbol{font-size:clamp(23px,4vw,43px);filter:drop-shadow(0 3px 8px #1b0918)}.card-name{position:relative;margin-top:8px;font:600 clamp(11px,1.5vw,17px)/1.1 'Cormorant Garamond',serif;color:#fff0c9;text-align:center}.card-number{position:absolute;top:10px;font-size:9px;color:#f6dca4;letter-spacing:.1em}.tarot-card:disabled{cursor:default}.tarot-card:not(:disabled):hover{transform:translateY(-5px)}
+.reading-results{max-width:850px;margin:23px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.reading-slot{padding:14px;border-radius:15px;border:1px solid rgba(220,182,110,.24);background:rgba(255,255,255,.045);min-height:120px}.reading-slot .slot-label{color:var(--gold2);font-size:10px;letter-spacing:.15em;text-transform:uppercase}.reading-slot h3{font:600 21px 'Cormorant Garamond',serif;color:#f4d8a4;margin:7px 0}.reading-slot p{font-size:12px;line-height:1.7;color:#e2cfd8;margin:0}.reading-slot:empty{display:none}.reading-note{text-align:center;color:#cbb7c2;font-size:11px;line-height:1.7;margin:22px auto 0;max-width:700px}.action-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px 0 0}
+.message-card{max-width:650px;margin:24px auto 0;padding:25px 22px;border-radius:19px;border:1px solid var(--gold);background:linear-gradient(145deg,rgba(130,55,83,.5),rgba(41,17,38,.8));text-align:center;box-shadow:inset 0 0 22px #e2bd7810}.message-card .big-symbol{font-size:37px}.message-card h3{font:600 29px 'Cormorant Garamond',serif;color:var(--gold2);margin:8px 0}.message-card p{font-size:14px;line-height:1.85;color:#f1dfe6;margin:0}.message-card small{display:block;color:var(--rose);margin-top:12px;letter-spacing:.12em;text-transform:uppercase;font-size:10px}
+.oracle-choices{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:20px 0}.choice-chip{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--blush);border-radius:99px;padding:10px 14px;font-size:12px}.choice-chip.active{background:#8c365e;border-color:var(--gold2);color:white}
+.coffee-scene,.crystal-scene{text-align:center;padding:22px 10px}.coffee-cup{font-size:100px;display:inline-block;filter:drop-shadow(0 10px 18px #0006);transition:transform .8s}.coffee-cup.turning{transform:rotate(180deg) translateY(8px)}.crystal-ball{font-size:100px;display:inline-block;filter:drop-shadow(0 0 24px #c18ad4aa);animation:crystalGlow 3s ease-in-out infinite}@keyframes crystalGlow{50%{filter:drop-shadow(0 0 35px #e2b2eaaa)}}
+.zodiac-grid{max-width:700px;margin:20px auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}.field-label{display:block;color:var(--gold2);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}.zodiac-grid select{width:100%;padding:13px;border-radius:12px;color:var(--cream);background:#32142a;border:1px solid var(--line)}
+.rune-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;max-width:700px;margin:20px auto}.rune{aspect-ratio:1;border:1px solid var(--gold);border-radius:15px;background:linear-gradient(145deg,#7a3d5b,#35172d);color:var(--gold2);font-size:35px;box-shadow:inset 0 0 0 4px #ffffff09;transition:.2s}.rune:hover{transform:translateY(-4px);box-shadow:0 10px 20px #0005}.rune.selected{background:linear-gradient(145deg,#c07991,#72304f);border:2px solid #ffe0a0;box-shadow:0 0 20px #e7c27a44}
+.footer-note{text-align:center;color:#ad91a0;font-size:11px;line-height:1.8;margin:28px auto 0;max-width:760px}.footer-sign{font:italic 22px 'Cormorant Garamond',serif;color:var(--gold2);text-align:center;margin-top:12px}
+.toast{position:fixed;z-index:100;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:12px 18px;border-radius:99px;background:#f5dfad;color:#38162b;font-size:12px;font-weight:700;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){.deck-grid{grid-template-columns:repeat(4,minmax(0,1fr));max-width:480px}.tarot-card{max-width:105px;width:100%;justify-self:center}.reading-results{grid-template-columns:1fr}.reading-slot{min-height:0}.rune-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.rune{font-size:28px}}
+@media(max-width:480px){#universeApp{padding:16px 12px 40px}.topbar{align-items:flex-start}.top-mark{font-size:9px;text-align:right}.hero{padding-top:14px}.panel{border-radius:20px;padding:17px 12px}.tab-bar{gap:6px}.tab-btn{font-size:10px;padding:9px 10px}.deck-grid{gap:8px}.card-face{border-radius:8px}.card-back:before{inset:5px}.card-front:before{inset:4px}.card-front{border-width:1px}.zodiac-grid{grid-template-columns:1fr}.rune-grid{gap:6px}.rune{font-size:24px;border-radius:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="lockScreen" hidden>
+  <div class="lock-card">
+    <div class="lock-icon">✧ 🔒 ✧</div>
+    <h1>This little universe is private</h1>
+    <p>Please sign in through Sabin and Pushpa's main website first. Then open the Secret Love Universe from the glowing button beside the envelope.</p>
+    <a class="primary-btn" href="./">Go to the main love story</a>
+  </div>
+</div>
 
+<main id="universeApp" hidden>
+  <div class="topbar">
+    <a class="back-link" href="./">← Back to our love story</a>
+    <div class="top-mark">✦ Made by Sabin for Pushpa ✦</div>
+  </div>
+  <header class="hero">
+    <div class="moon">☾ ✧ ☽</div>
+    <div class="eyebrow">A little magic, made just for us</div>
+    <h1>The Secret Love Universe</h1>
+    <p>Choose a card, discover a symbol, and find a little message from Sabin. Every reading here is made to celebrate your story — never to frighten you or predict something bad.</p>
+    <div class="gold-rule"></div>
+  </header>
+
+  <nav class="tab-bar" aria-label="Love Universe experiences">
+    <button class="tab-btn active" data-tab="tarot">✦ Our Story Tarot</button>
+    <button class="tab-btn" data-tab="oracle">♡ Love Oracle</button>
+    <button class="tab-btn" data-tab="coffee">☕ Coffee Reading</button>
+    <button class="tab-btn" data-tab="zodiac">♈ Zodiac Corner</button>
+    <button class="tab-btn" data-tab="crystal">🔮 Crystal Wishes</button>
+    <button class="tab-btn" data-tab="runes">✧ Love Runes</button>
+  </nav>
+
+  <section class="panel tab-panel" id="tab-tarot">
+    <div class="section-head">
+      <div class="symbol">🃏 ✧</div>
+      <h2>Our Story Tarot</h2>
+      <p>A special deck inspired by your chats, video calls, little moments and the future you hope to build. There are no reversed cards in this deck.</p>
+    </div>
+    <div class="mode-row">
+      <button class="mode-btn active" data-spread="1">One-card message</button>
+      <button class="mode-btn" data-spread="3">You, Me & Us · 3 cards</button>
+    </div>
+    <div class="select-wrap">
+      <select id="tarotQuestion" aria-label="Choose a reading question">
+        <option value="What makes our connection special?">What makes our connection special?</option>
+        <option value="Which memory should we keep close?">Which memory should we keep close?</option>
+        <option value="What should we celebrate about us?">What should we celebrate about us?</option>
+        <option value="What dream can we keep building together?">What dream can we keep building together?</option>
+        <option value="What message should Pushpa hear today?">What message should Pushpa hear today?</option>
+      </select>
+    </div>
+    <p class="draw-instruction" id="drawInstruction">Take a breath, think of your question, then choose one card.</p>
+    <div class="deck-grid" id="tarotDeck" aria-label="Choose a tarot card"></div>
+    <div class="reading-results" id="tarotResults" aria-live="polite"></div>
+    <div class="action-row"><button class="soft-btn" id="reshuffleTarot">↻ Shuffle and draw again</button></div>
+    <p class="reading-note">This is a personalised, playful reflection — not a prediction. Every card is written with a positive meaning and can be edited by Sabin in the settings near the bottom of this page's JavaScript.</p>
+  </section>
+
+  <section class="panel tab-panel" id="tab-oracle" hidden>
+    <div class="section-head"><div class="symbol">🕊️ ✧</div><h2>The Love Oracle</h2><p>Ask a gentle question and let a little message from Sabin find its way to Pushpa.</p></div>
+    <div class="oracle-choices" id="oracleTopics">
+      <button class="choice-chip active" data-topic="heart">What is in our hearts?</button>
+      <button class="choice-chip" data-topic="memory">A memory to treasure</button>
+      <button class="choice-chip" data-topic="dream">A dream for our future</button>
+      <button class="choice-chip" data-topic="today">A message for today</button>
+    </div>
+    <div class="action-row"><button class="primary-btn" id="askOracle">Reveal my message ✨</button></div>
+    <div class="message-card" id="oracleMessage" aria-live="polite"><div class="big-symbol">💌</div><h3>Your message is waiting</h3><p>Choose a question above, then open your little message.</p><small>With love · Sabin</small></div>
+  </section>
+
+  <section class="panel tab-panel" id="tab-coffee" hidden>
+    <div class="section-head"><div class="symbol">☕ ✧</div><h2>Our Coffee Cup Reading</h2><p>A playful coffee-cup reading. The shapes are symbols for sweet moments and shared hopes — not warnings or fixed predictions.</p></div>
+    <div class="coffee-scene"><div class="coffee-cup" id="coffeeCup">☕</div></div>
+    <div class="action-row"><button class="primary-btn" id="readCoffee">Turn the cup and read the symbols</button></div>
+    <div class="message-card" id="coffeeMessage" aria-live="polite"><div class="big-symbol">🌙</div><h3>A little pattern is waiting</h3><p>Tap the button to discover a warm symbol for your story.</p><small>For fun and reflection</small></div>
+  </section>
+
+  <section class="panel tab-panel" id="tab-zodiac" hidden>
+    <div class="section-head"><div class="symbol">☼ ✧</div><h2>Our Zodiac Corner</h2><p>Choose both signs for a sweet, playful celebration of your different qualities. This is not a serious compatibility test.</p></div>
+    <div class="zodiac-grid">
+      <label><span class="field-label">Pushpa's zodiac sign</span><select id="herSign"><option value="">Choose Pushpa's sign</option></select></label>
+      <label><span class="field-label">Sabin's zodiac sign</span><select id="yourSign"><option value="">Choose Sabin's sign</option></select></label>
+    </div>
+    <div class="action-row"><button class="primary-btn" id="readZodiac">Read our star story ✨</button></div>
+    <div class="message-card" id="zodiacMessage" aria-live="polite"><div class="big-symbol">♌ ♡ ♒</div><h3>Two signs, one little universe</h3><p>Select your signs to reveal a positive reflection about the ways two people can care for each other.</p><small>Written with love</small></div>
+  </section>
+
+  <section class="panel tab-panel" id="tab-crystal" hidden>
+    <div class="section-head"><div class="symbol">🔮 ✧</div><h2>The Crystal Ball of Wishes</h2><p>The crystal ball cannot know the future — but it can reveal a wish to keep close and perhaps turn into a real memory together.</p></div>
+    <div class="crystal-scene"><div class="crystal-ball">🔮</div></div>
+    <div class="action-row"><button class="primary-btn" id="revealWish">Reveal a wish for us ✨</button></div>
+    <div class="message-card" id="wishMessage" aria-live="polite"><div class="big-symbol">💫</div><h3>A wish is waiting inside</h3><p>Tap the crystal ball and discover a little hope for the two of you.</p><small>Our wishes · Our journey</small></div>
+  </section>
+
+  <section class="panel tab-panel" id="tab-runes" hidden>
+    <div class="section-head"><div class="symbol">ᚷ ✧</div><h2>The Secret Love Runes</h2><p>Choose three stones: one for the bond you share, one for the joy you bring, and one for the dreams you can nurture together.</p></div>
+    <p class="draw-instruction" id="runeInstruction">Choose 3 different stones to reveal your reading.</p>
+    <div class="rune-grid" id="runeGrid"></div>
+    <div class="reading-results" id="runeResults"></div>
+    <div class="action-row"><button class="soft-btn" id="resetRunes">↻ Choose three new stones</button></div>
+  </section>
+
+  <p class="footer-note">All readings in this little universe are positive, personalised entertainment. They are not promises about the future or claims about what another person thinks. Sabin can change the messages, memories and details in the customisation section in the JavaScript.</p>
+  <div class="footer-sign">Made with love, for Pushpa · Sabin ❤️</div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================================================================
+   SABIN'S EASY CUSTOMISATION AREA
+   You can change these words without changing the game engine.
+   These sample messages are based on details already on your page:
+   chats, video calls, distance, and dreams of a shared future.
+   ================================================================ */
+const LOVE_UNIVERSE = {
+  herName: "Pushpa",
+  yourName: "Sabin",
+  signature: "With love · Sabin",
+  tarotCards: [
+    { name:"The First Spark", symbol:"✨", theme:"The beginning", meaning:"Every beautiful story begins with a moment of connection. Yours grew through little conversations, curiosity and the choice to keep coming back to each other.", reflection:"Keep making room for the small moments. They are part of what makes your story yours." },
+    { name:"The Voice Across Distance", symbol:"🌙", theme:"Closeness", meaning:"A familiar voice can make a faraway day feel warmer. Your calls remind you that care can travel across distance.", reflection:"Make time for another call, even if it is only a few minutes." },
+    { name:"The First Video Call", symbol:"📱", theme:"A treasured memory", meaning:"Some first moments stay with us. Your first video call is one of those memories worth keeping close.", reflection:"One day, look back at that first call and remember how your story kept growing." },
+    { name:"The Golden Thread", symbol:"🧵", theme:"Your connection", meaning:"A golden thread is a symbol of the little things that connect two people: checking in, listening, laughing and showing up.", reflection:"Keep choosing kindness in the ordinary moments." },
+    { name:"The Keeper of Messages", symbol:"💌", theme:"Words that matter", meaning:"A message can become a keepsake when it carries genuine care. Your conversations are part of the story you are creating together.", reflection:"Save a message that makes you smile and tell each other why it matters." },
+    { name:"The Shared Smile", symbol:"🌹", theme:"Joy", meaning:"Somebody who can make you smile from far away brings a special kind of warmth to an ordinary day.", reflection:"Create another reason to laugh together today." },
+    { name:"The Patient Heart", symbol:"🕯️", theme:"Steady care", meaning:"Distance can ask for patience, trust and thoughtful communication. Every caring effort is a small light along the way.", reflection:"Keep listening, being honest and making time for one another." },
+    { name:"The Garden of Tomorrow", symbol:"🌷", theme:"Shared hopes", meaning:"A lovely future is not something a card can promise. It is something two people can keep building through their choices, plans and care.", reflection:"Talk about one little dream you would love to make real together." },
+    { name:"The Home in a Hug", symbol:"🏡", theme:"Belonging", meaning:"Home can be a feeling of being understood, welcomed and cared for. It is a beautiful thing to create that feeling together.", reflection:"Tell each other one thing that makes you feel safe and appreciated." },
+    { name:"The Constellation", symbol:"🌟", theme:"Your own path", meaning:"Every relationship has its own pattern. Your memories, jokes and little rituals make a constellation that belongs to the two of you.", reflection:"Start a tiny tradition that is only yours." },
+    { name:"The Promise of Today", symbol:"🤍", theme:"Choosing each other", meaning:"Love is also found in today's actions: a thoughtful message, a patient conversation and showing that someone matters.", reflection:"Choose one small way to make each other's day brighter." },
+    { name:"The Open Door", symbol:"🗝️", theme:"New experiences", meaning:"There are still new memories waiting to be made: places to see, food to try, stories to tell and adventures to share.", reflection:"Choose one new experience to put on your together-list." }
+  ],
+  oracle: {
+    heart: [
+      "The most meaningful part of a connection is often the feeling of being heard, remembered and accepted. Keep giving each other that space.",
+      "Your story is made of two real people, not perfect characters. Keep choosing honesty, gentleness and laughter.",
+      "A little reminder from Sabin: even on an ordinary day, you are someone worth making time for. ❤️"
+    ],
+    memory: [
+      "Keep the memory of your first video call close. First moments can become the sweetest pages in a story.",
+      "Remember the conversations that made a difficult or boring day feel lighter. Small memories deserve a place too.",
+      "One day, collect your favourite screenshots and write the story behind each one. It will be your own little time capsule."
+    ],
+    dream: [
+      "May you keep finding new places, new foods and new reasons to laugh together. Let the future be something you build one step at a time.",
+      "A shared dream becomes more real when you talk about it, plan for it and support each other's individual hopes too.",
+      "Keep a list of the little adventures you want to experience together. One day, you can start ticking them off."
+    ],
+    today: [
+      "Today's message: send a little affection without waiting for a special occasion. The smallest gestures can brighten a whole day.",
+      "Take a moment to tell each other one thing you appreciated today. Let the good things be heard.",
+      "A reminder from Sabin: your smile is one of my favourite parts of an ordinary day. ❤️"
+    ]
+  },
+  coffeeSymbols: [
+    {symbol:"♡",name:"The Heart",message:"A symbol of affection and the little acts of care that make a connection feel warm. Today, share one thing you appreciate about each other."},
+    {symbol:"✦",name:"The Star",message:"A symbol of a shared dream. Choose one small adventure or goal that you would both enjoy working towards."},
+    {symbol:"❀",name:"The Flower",message:"A symbol of growth. Keep giving your connection attention, patience and kindness, just as a garden needs gentle care."},
+    {symbol:"☾",name:"The Moon",message:"A symbol of quiet moments. A calm call or a thoughtful message can be just as meaningful as a grand surprise."},
+    {symbol:"∞",name:"The Loop",message:"A symbol of the memories you revisit: favourite jokes, familiar voices and little traditions that make your story unique."},
+    {symbol:"☀",name:"The Sun",message:"A symbol of joy. Make room for something silly, fun or spontaneous together. Happiness can be beautifully simple."}
+  ],
+  wishes: [
+    "A day when there is no need to count the distance — just time together, laughter and a long hug.",
+    "A little trip together, with photos, new food and a story you will tell for years.",
+    "A future filled with ordinary happy days: shared breakfasts, silly jokes and peaceful evenings.",
+    "The chance to turn one of your shared dreams into a real plan, one small step at a time.",
+    "More calls that end with smiles, more memories to save and more reasons to be proud of each other.",
+    "A home filled with warmth, understanding, music, laughter and the people you love."
+  ],
+  runes: [
+    {glyph:"ᚷ",name:"The Gift",meaning:"A reminder to appreciate the care and effort you give each other."},
+    {glyph:"ᛃ",name:"The Harvest",meaning:"A reminder that good things grow with time, patience and attention."},
+    {glyph:"ᛉ",name:"The Shelter",meaning:"A symbol of support: being a safe person to talk to and lean on."},
+    {glyph:"ᚹ",name:"The Joy",meaning:"A reminder to keep laughter, playfulness and fun in your relationship."},
+    {glyph:"ᛜ",name:"The Potential",meaning:"A symbol of possibilities and the experiences you have not shared yet."},
+    {glyph:"ᛞ",name:"The Dawn",meaning:"A symbol of a fresh start and the chance to make a good memory today."},
+    {glyph:"ᛟ",name:"The Home",meaning:"A symbol of belonging, shared traditions and the feeling of being understood."},
+    {glyph:"ᚲ",name:"The Light",meaning:"A symbol of clarity: communicate openly and let kindness guide difficult talks."},
+    {glyph:"ᛗ",name:"The Togetherness",meaning:"A reminder that both people bring their own strengths, hopes and personality to a bond."},
+    {glyph:"ᛒ",name:"The Growth",meaning:"A symbol of learning together while still making room for each person's individual dreams."}
+  ]
+};
+
+/* The app uses the same tab-session created by the existing main-site login. */
+(() => {
+  const lock = document.getElementById('lockScreen');
+  const app = document.getElementById('universeApp');
+  let loggedInAs = '';
+  try { loggedInAs = sessionStorage.getItem('loveSiteUser') || ''; } catch (error) {}
+  if (loggedInAs === 'Pushpa' || loggedInAs === 'Sabin') {
+    app.hidden = false;
+  } else {
+    lock.hidden = false;
+  }
+})();
+
+const $ = (selector, root=document) => root.querySelector(selector);
+const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
+const randomItem = array => array[Math.floor(Math.random() * array.length)];
+const shuffle = array => {
+  const copy = [...array];
+  for (let i=copy.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [copy[i],copy[j]]=[copy[j],copy[i]]; }
+  return copy;
+};
+function showToast(message) {
+  const toast = $('#toast'); toast.textContent = message; toast.classList.add('show');
+  clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+function messageCard(target, symbol, title, body, signature=LOVE_UNIVERSE.signature) {
+  target.innerHTML = `<div class="big-symbol">${symbol}</div><h3>${title}</h3><p>${body}</p><small>${signature}</small>`;
+}
+
+// Navigation between the six themed experiences.
+$$('.tab-btn').forEach(button => button.addEventListener('click', () => {
+  $$('.tab-btn').forEach(item => item.classList.toggle('active', item === button));
+  $$('.tab-panel').forEach(panel => { panel.hidden = panel.id !== `tab-${button.dataset.tab}`; });
+}));
+
+// TAROT: positive-only custom deck, no reversed meanings.
+let spreadSize = 1;
+let drawPile = [];
+let drawnCards = [];
+const spreadLabels = ['Our beginning', 'Our connection', 'Our shared dream'];
+function resetTarot() {
+  drawPile = shuffle(LOVE_UNIVERSE.tarotCards);
+  drawnCards = [];
+  const deck = $('#tarotDeck'); deck.innerHTML = '';
+  $('#tarotResults').innerHTML = '';
+  $('#drawInstruction').textContent = spreadSize === 1
+    ? 'Take a breath, think of your question, then choose one card.'
+    : 'Choose three cards: one for your beginning, one for your connection and one for your shared dream.';
+  for (let i=0;i<8;i++) {
+    const button = document.createElement('button');
+    button.type='button'; button.className='tarot-card'; button.setAttribute('aria-label',`Choose face-down tarot card ${i+1}`);
+    button.innerHTML = `<span class="card-inner"><span class="card-face card-back"><span class="back-star">✧</span><span class="back-caption">S & P</span></span><span class="card-face card-front"><span class="card-number">✦ ${String(i+1).padStart(2,'0')} ✦</span><span class="card-symbol"></span><span class="card-name"></span></span></span>`;
+    button.addEventListener('click', () => chooseTarotCard(button));
+    deck.appendChild(button);
+  }
+}
+function chooseTarotCard(button) {
+  if (button.disabled || drawnCards.length >= spreadSize) return;
+  const card = drawPile.pop();
+  const index = drawnCards.length;
+  drawnCards.push(card);
+  $('.card-symbol',button).textContent = card.symbol;
+  $('.card-name',button).textContent = card.name;
+  button.classList.add('flipped'); button.disabled = true;
+  const slot = document.createElement('article'); slot.className='reading-slot';
+  const label = spreadSize === 1 ? 'Your card' : spreadLabels[index];
+  const question = $('#tarotQuestion').value;
+  slot.innerHTML = `<div class="slot-label">${label}</div><h3>${card.name}</h3><p>${card.meaning}</p><p style="margin-top:8px;color:#f2d69e"><strong>Little suggestion:</strong> ${card.reflection}</p>`;
+  $('#tarotResults').appendChild(slot);
+  $('#drawInstruction').textContent = drawnCards.length === spreadSize
+    ? `Your reading is ready: ${question}`
+    : `Lovely choice. Choose ${spreadSize-drawnCards.length} more card${spreadSize-drawnCards.length===1?'':'s'}.`;
+  if (drawnCards.length === spreadSize) {
+    const note = document.createElement('p'); note.className='reading-note'; note.textContent = `Your question: ${question} · A gentle reflection for ${LOVE_UNIVERSE.herName} and ${LOVE_UNIVERSE.yourName}.`;
+    $('#tarotResults').appendChild(note);
+    showToast('Your little reading is ready ✨');
+  }
+}
+$$('[data-spread]').forEach(button => button.addEventListener('click', () => {
+  spreadSize = Number(button.dataset.spread);
+  $$('[data-spread]').forEach(item => item.classList.toggle('active',item===button));
+  resetTarot();
+}));
+$('#reshuffleTarot').addEventListener('click',resetTarot);
+resetTarot();
+
+// LOVE ORACLE.
+let oracleTopic = 'heart';
+$$('[data-topic]').forEach(button => button.addEventListener('click', () => {
+  oracleTopic = button.dataset.topic;
+  $$('[data-topic]').forEach(item => item.classList.toggle('active',item===button));
+}));
+$('#askOracle').addEventListener('click', () => {
+  const labels = {heart:'A message about your hearts',memory:'A memory to treasure',dream:'A dream for tomorrow',today:'A message for today'};
+  messageCard($('#oracleMessage'),'💌',labels[oracleTopic],randomItem(LOVE_UNIVERSE.oracle[oracleTopic]));
+});
+
+// COFFEE CUP SYMBOL READING.
+$('#readCoffee').addEventListener('click', () => {
+  const cup = $('#coffeeCup'); cup.classList.remove('turning'); void cup.offsetWidth; cup.classList.add('turning');
+  const item = randomItem(LOVE_UNIVERSE.coffeeSymbols);
+  setTimeout(() => messageCard($('#coffeeMessage'),item.symbol,item.name,item.message,'A sweet symbol · Not a prediction'),520);
+});
+
+// ZODIAC CORNER: gentle, positive reflection rather than a compatibility score.
+const zodiacSigns = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+[zodiacSigns,zodiacSigns].forEach((list,index) => {
+  const select = $(index===0?'#herSign':'#yourSign');
+  list.forEach(sign => { const option=document.createElement('option'); option.value=sign; option.textContent=sign; select.appendChild(option); });
+});
+const starReflections = [
+  'One of you may bring bold energy while the other brings a thoughtful perspective. Different styles can become a strength when both people listen with care.',
+  'This pairing is a reminder that affection can be shown in many languages: words, time, laughter, patience and thoughtful little actions.',
+  'Think of your signs as two colours in one painting. You do not need to be identical to create something meaningful together.',
+  'Your best “compatibility secret” is not written in the stars: it is how you communicate, respect each other and keep making memories.'
+];
+$('#readZodiac').addEventListener('click',() => {
+  const her=$('#herSign').value, yours=$('#yourSign').value;
+  if(!her||!yours){showToast('Choose both zodiac signs first ✨');return;}
+  messageCard($('#zodiacMessage'),'♈ ♡ ♒',`${her} + ${yours}`,randomItem(starReflections),'A playful star note for Pushpa & Sabin');
+});
+
+// CRYSTAL BALL: wishes to work towards, never predictions.
+$('#revealWish').addEventListener('click',() => messageCard($('#wishMessage'),'🔮','A wish for the two of you',randomItem(LOVE_UNIVERSE.wishes),'A wish to make real, one day at a time'));
+
+// RUNES: three unique stones, each with a positive reflection.
+let selectedRunes=[];
+function buildRunes(){
+  selectedRunes=[]; $('#runeResults').innerHTML=''; $('#runeGrid').innerHTML='';
+  $('#runeInstruction').textContent='Choose 3 different stones to reveal your reading.';
+  shuffle(LOVE_UNIVERSE.runes).forEach((rune,index)=>{
+    const button=document.createElement('button');button.type='button';button.className='rune';button.textContent=rune.glyph;button.setAttribute('aria-label',`Choose rune ${index+1}`);button.title='Choose this symbol';
+    button.addEventListener('click',()=>{
+      if(button.classList.contains('selected')||selectedRunes.length>=3)return;
+      button.classList.add('selected');selectedRunes.push(rune);
+      const labels=['The bond you share','The joy you bring','The dream you nurture'];
+      const slot=document.createElement('article');slot.className='reading-slot';slot.innerHTML=`<div class="slot-label">${labels[selectedRunes.length-1]}</div><h3>${rune.glyph} ${rune.name}</h3><p>${rune.meaning}</p>`;$('#runeResults').appendChild(slot);
+      $('#runeInstruction').textContent=selectedRunes.length===3?'Your three-symbol reading is complete.':'Choose '+(3-selectedRunes.length)+' more stone'+(3-selectedRunes.length===1?'':'s')+'.';
+      if(selectedRunes.length===3)showToast('Your three runes are revealed ✨');
+    });
+    $('#runeGrid').appendChild(button);
+  });
+}
+$('#resetRunes').addEventListener('click',buildRunes);buildRunes();
+</script>
+</body>
+</html>

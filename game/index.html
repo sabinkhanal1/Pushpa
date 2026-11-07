@@ -44,6 +44,10 @@ a{color:inherit}
 @media(max-width:800px){.deck-grid{grid-template-columns:repeat(4,minmax(0,1fr));max-width:480px}.tarot-card{max-width:105px;width:100%;justify-self:center}.reading-results{grid-template-columns:1fr}.reading-slot{min-height:0}.rune-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.rune{font-size:28px}}
 @media(max-width:480px){#universeApp{padding:16px 12px 40px}.topbar{align-items:flex-start}.top-mark{font-size:9px;text-align:right}.hero{padding-top:14px}.panel{border-radius:20px;padding:17px 12px}.tab-bar{gap:6px}.tab-btn{font-size:10px;padding:9px 10px}.deck-grid{gap:8px}.card-face{border-radius:8px}.card-back:before{inset:5px}.card-front:before{inset:4px}.card-front{border-width:1px}.zodiac-grid{grid-template-columns:1fr}.rune-grid{gap:6px}.rune{font-size:24px;border-radius:10px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* FIX: Hide the private screen when login is valid */
+#lockScreen[hidden] {
+  display: none !important;
+}
 </style>
 </head>
 <body>

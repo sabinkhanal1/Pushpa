@@ -1,422 +1,726 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Little Journey ❤️</title>
+<title>Our Journey ❤️</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
-  background: #101522;
-  color: white;
+  margin: 0;
+  overflow: hidden;
+  background: #172638;
   font-family: Georgia, serif;
-  overflow: hidden;
 }
-
-#game {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(#78c9f5, #d8e9c0 48%, #548b54);
-}
-
-#scene {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+#game { width: 100vw; height: 100vh; }
+canvas { display: block; }
 
 #hud {
-  position: absolute;
+  position: fixed;
   top: 18px;
   left: 0;
   width: 100%;
   text-align: center;
+  color: white;
   font-size: 18px;
-  text-shadow: 0 2px 5px #333;
+  text-shadow: 0 2px 8px #000;
   pointer-events: none;
+  z-index: 2;
 }
-
-#message {
-  position: absolute;
+#message, #ending {
+  position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  background: #101522bb;
-  padding: 24px;
+  background: #101a29b8;
+  color: white;
+  z-index: 5;
+  padding: 20px;
 }
-
 .panel {
-  max-width: 520px;
-  padding: 35px;
-  border: 1px solid #ffffff66;
+  width: min(520px, 95vw);
+  padding: 32px;
+  border: 1px solid #ffffff55;
   border-radius: 24px;
-  background: #18233deF;
+  background: #18253bea;
   box-shadow: 0 15px 60px #0008;
 }
-
-h1 {
-  font-size: clamp(28px, 6vw, 48px);
-  margin-bottom: 18px;
-}
-
-p {
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
+h1 { color: #ffb6ce; }
+p { line-height: 1.7; }
 button {
-  background: #ff477e;
-  color: white;
-  border: none;
-  padding: 14px 28px;
+  border: 0;
   border-radius: 30px;
-  font-size: 17px;
+  background: #ed477c;
+  color: white;
+  padding: 13px 25px;
+  font-size: 16px;
   cursor: pointer;
 }
-
-button:hover {
-  background: #ff75a0;
-}
+button:hover { background: #ff70a0; }
 
 #controls {
-  position: absolute;
-  bottom: 22px;
+  position: fixed;
+  bottom: 24px;
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  padding: 0 25px;
+  pointer-events: none;
+  z-index: 3;
 }
-
 #controls button {
-  background: #17243dcc;
-  border: 1px solid white;
   width: 65px;
-  height: 55px;
+  height: 60px;
   padding: 0;
-  font-size: 25px;
+  font-size: 27px;
+  background: #18253dbb;
+  border: 1px solid white;
+  pointer-events: auto;
 }
-
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 #ending {
-  position: absolute;
-  inset: 0;
   display: none;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(#25132beF, #5a2349ee);
-  padding: 20px;
+  background: linear-gradient(#26142beF, #632a50ee);
 }
-
-.ending-content {
-  max-width: 650px;
-}
-
-#ending h1 {
-  color: #ffb7d0;
-}
-
 #ending img {
-  width: min(150px, 30vw);
+  width: 125px;
   height: 180px;
   object-fit: contain;
-  margin: 8px;
+  margin: 5px;
 }
-
-@media (max-width: 600px) {
-  #hud { font-size: 15px; }
-  .panel { padding: 24px; }
+#sceneText {
+  position: fixed;
+  bottom: 105px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 19px;
+  text-shadow: 0 2px 8px #000;
+  pointer-events: none;
+  z-index: 2;
 }
 </style>
 </head>
 
 <body>
-<div id="game">
-  <canvas id="scene"></canvas>
 
-  <div id="hud">❤️ Our Journey · <span id="distance">0</span> m</div>
+<div id="game"></div>
+<div id="hud">❤️ OUR JOURNEY · <span id="status">Ready?</span></div>
+<div id="sceneText"></div>
 
-  <div id="message">
-    <div class="panel">
-      <h1>Our Little Journey ❤️</h1>
-      <p>A beautiful road, two little cars, and one special destination.</p>
-      <p>Drive carefully. Someone special is following you. 🌸</p>
-      <button id="start">Start Our Journey</button>
-    </div>
-  </div>
-
-  <div id="controls" class="hidden">
-    <button id="left">←</button>
-    <button id="right">→</button>
-  </div>
-
-  <div id="ending">
-    <div class="ending-content">
-      <h1>Will You Be Mine? ❤️</h1>
-      <p>Every road feels beautiful when I imagine travelling it with you.</p>
-      <img id="proposalBoy" src="characters/boy-proposal-kneeling.png" alt="Boy proposing">
-      <img id="proposalGirl" src="characters/girl-receiving-flowers.png" alt="Girl receiving flowers">
-      <p id="answer">You make my world more beautiful. 🌹</p>
-      <button id="yes">YES ❤️</button>
-    </div>
+<div id="message">
+  <div class="panel">
+    <h1>Our Little Journey ❤️</h1>
+    <p>Two cars. One beautiful road. One destination.</p>
+    <p>Drive ahead, and someone special will follow you.</p>
+    <button id="start">Start Our Journey</button>
   </div>
 </div>
 
-<script>
-const canvas = document.getElementById("scene");
-const ctx = canvas.getContext("2d");
+<div id="controls" class="hidden">
+  <button id="left">←</button>
+  <button id="right">→</button>
+</div>
 
-let width, height;
-let running = false;
-let distance = 0;
-let roadOffset = 0;
-let playerX = 0;
-let ending = false;
-let lastTime = 0;
-let keys = { left: false, right: false };
+<div id="ending">
+  <div class="panel">
+    <h1>She Said YES! ❤️</h1>
+    <img src="characters/boy-with-flowers.png" alt="Boy">
+    <img src="characters/girl-open-arms.png" alt="Girl">
+    <p>Every road is beautiful when I travel it with you.</p>
+    <h2>Forever & Always 🌹</h2>
+    <button id="restart">Experience Again</button>
+  </div>
+</div>
 
-const sprites = {};
-const spriteNames = [
-  "boy-standing",
-  "boy-walking",
-  "boy-with-flowers",
-  "boy-proposal-kneeling",
-  "girl-standing",
-  "girl-walking",
-  "girl-receiving-flowers",
-  "girl-open-arms"
-];
+<script type="module">
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js";
 
-spriteNames.forEach(name => {
-  const img = new Image();
-  img.src = `characters/${name}.png`;
-  sprites[name] = img;
-});
+/* -----------------------------
+   1. BASIC THREE.JS WORLD
+------------------------------ */
 
-function resize() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  width = window.innerWidth;
-  height = window.innerHeight;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+const container = document.getElementById("game");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x91d4f3);
+scene.fog = new THREE.Fog(0x91d4f3, 65, 260);
+
+const camera = new THREE.PerspectiveCamera(
+  65, window.innerWidth / window.innerHeight, 0.1, 1000
+);
+camera.position.set(0, 7, 12);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x527044, 2));
+
+const sunlight = new THREE.DirectionalLight(0xffffff, 2.3);
+sunlight.position.set(-30, 60, 25);
+sunlight.castShadow = true;
+scene.add(sunlight);
+
+/* -----------------------------
+   2. MATERIALS AND HELPERS
+------------------------------ */
+
+function material(color, roughness = 0.8) {
+  return new THREE.MeshStandardMaterial({ color, roughness });
 }
-window.addEventListener("resize", resize);
-resize();
 
-function drawCar(x, y, color, isPlayer = false) {
-  ctx.save();
-  ctx.translate(x, y);
+const grassMat = material(0x64a85a);
+const roadMat = material(0x414957);
+const whiteMat = material(0xffffff);
+const treeMat = material(0x27834b);
+const trunkMat = material(0x785238);
 
-  // Shadow
-  ctx.fillStyle = "#17201788";
-  ctx.beginPath();
-  ctx.ellipse(0, 30, 43, 11, 0, 0, Math.PI * 2);
-  ctx.fill();
+function box(parent, x, y, z, sx, sy, sz, mat) {
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(sx, sy, sz), mat
+  );
+  mesh.position.set(x, y, z);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  parent.add(mesh);
+  return mesh;
+}
+
+/* -----------------------------
+   3. ROAD AND LANDSCAPE
+------------------------------ */
+
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(1000, 2000),
+  grassMat
+);
+ground.rotation.x = -Math.PI / 2;
+ground.position.set(0, -0.12, -850);
+ground.receiveShadow = true;
+scene.add(ground);
+
+const road = new THREE.Mesh(
+  new THREE.PlaneGeometry(18, 2000),
+  roadMat
+);
+road.rotation.x = -Math.PI / 2;
+road.position.set(0, 0, -850);
+road.receiveShadow = true;
+scene.add(road);
+
+// Road edges
+for (const x of [-8.8, 8.8]) {
+  const edge = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.35, 2000),
+    whiteMat
+  );
+  edge.rotation.x = -Math.PI / 2;
+  edge.position.set(x, 0.02, -850);
+  scene.add(edge);
+}
+
+// Dashed centre line
+const dashMat = material(0xffe7a0);
+for (let z = 10; z > -1800; z -= 13) {
+  const dash = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.25, 6),
+    dashMat
+  );
+  dash.rotation.x = -Math.PI / 2;
+  dash.position.set(0, 0.035, z);
+  scene.add(dash);
+}
+
+/* -----------------------------
+   4. TREES AND MOUNTAINS
+------------------------------ */
+
+function createTree(x, z, scale = 1) {
+  const tree = new THREE.Group();
+  tree.position.set(x, 0, z);
+  tree.scale.setScalar(scale);
+
+  const trunk = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.25, 0.35, 3, 7),
+    trunkMat
+  );
+  trunk.position.y = 1.5;
+  trunk.castShadow = true;
+  tree.add(trunk);
+
+  const leaves = new THREE.Mesh(
+    new THREE.ConeGeometry(2.1, 5, 8),
+    treeMat
+  );
+  leaves.position.y = 4.4;
+  leaves.castShadow = true;
+  tree.add(leaves);
+
+  scene.add(tree);
+}
+
+for (let z = 30; z > -1700; z -= 24) {
+  createTree(-13 - Math.random() * 7, z, 0.8 + Math.random() * 0.7);
+  createTree(13 + Math.random() * 7, z - 10, 0.8 + Math.random() * 0.7);
+}
+
+// Distant mountains
+for (let i = 0; i < 12; i++) {
+  const mountain = new THREE.Mesh(
+    new THREE.ConeGeometry(22 + Math.random() * 12, 38 + Math.random() * 20, 5),
+    material(0x789d91)
+  );
+  mountain.position.set(-100 + i * 19, 13, -170 - Math.random() * 20);
+  mountain.rotation.y = Math.random();
+  scene.add(mountain);
+}
+
+/* -----------------------------
+   5. PETROL STATION
+------------------------------ */
+
+const station = new THREE.Group();
+station.position.set(13, 0, -145);
+scene.add(station);
+
+// Station platform
+box(station, 0, 0.15, 0, 17, 0.3, 27, material(0xbcbec2));
+
+// Roof and columns
+box(station, 0, 5.2, -1, 18, 0.7, 12, material(0xe9e8e0));
+box(station, 0, 5.65, -1, 18.2, 0.2, 12.2, material(0xe94d61));
+
+for (const x of [-7, 7]) {
+  for (const z of [-5, 3]) {
+    box(station, x, 2.5, z, 0.4, 5, 0.4, whiteMat);
+  }
+}
+
+// Petrol pumps
+for (const x of [-4, 4]) {
+  box(station, x, 1.5, -1, 1.4, 3, 1.1, material(0xf3f1e9));
+  box(station, x, 2, -0.42, 0.9, 0.55, 0.06, material(0x283a51));
+  box(station, x, 0.1, -1, 1.7, 0.2, 1.4, material(0x39404c));
+}
+
+// Small shop
+box(station, 0, 2, -10, 8, 4, 5, material(0xf0dfc5));
+box(station, 0, 4.3, -10, 8.5, 0.6, 5.5, material(0xd95160));
+box(station, 0, 2.2, -7.45, 3.4, 2.2, 0.08, material(0x7dc9df));
+
+/* -----------------------------
+   6. CREATE CARTOON SPORTS CARS
+------------------------------ */
+
+function createCar(color) {
+  const car = new THREE.Group();
+
+  const paint = material(color, 0.3);
+  const glass = new THREE.MeshStandardMaterial({
+    color: 0x8bd7ed,
+    metalness: 0.3,
+    roughness: 0.2
+  });
+
+  // Main body
+  box(car, 0, 0.8, 0, 2.5, 0.65, 4.6, paint);
+
+  // Front bonnet
+  box(car, 0, 1.05, -1.55, 2.35, 0.35, 1.3, paint);
+
+  // Cabin
+  const cabin = new THREE.Mesh(
+    new THREE.BoxGeometry(1.75, 0.9, 2),
+    glass
+  );
+  cabin.position.set(0, 1.55, 0.25);
+  cabin.castShadow = true;
+  car.add(cabin);
+
+  // Roof
+  box(car, 0, 2.03, 0.3, 1.8, 0.15, 1.5, paint);
+
+  // Spoiler
+  box(car, 0, 1.65, 2.05, 2.5, 0.12, 0.2, paint);
+
+  // Headlights
+  for (const x of [-0.85, 0.85]) {
+    box(car, x, 0.98, -2.31, 0.48, 0.2, 0.08, material(0xfff3b0));
+    box(car, x, 0.85, 2.31, 0.4, 0.2, 0.08, material(0xff354d));
+  }
 
   // Wheels
-  ctx.fillStyle = "#171717";
-  ctx.fillRect(-36, -3, 12, 28);
-  ctx.fillRect(24, -3, 12, 28);
+  const wheels = [];
+  const wheelMat = material(0x17191d);
+  const rimMat = material(0xbac7d4, 0.35);
 
-  // Body
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.roundRect(-43, -17, 86, 40, 13);
-  ctx.fill();
+  for (const x of [-1.23, 1.23]) {
+    for (const z of [-1.45, 1.45]) {
+      const wheel = new THREE.Group();
+      wheel.position.set(x, 0.48, z);
 
-  // Windows
-  ctx.fillStyle = "#bce9f7";
-  ctx.beginPath();
-  ctx.roundRect(-22, -30, 44, 25, 9);
-  ctx.fill();
+      const tyre = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.48, 0.48, 0.28, 20),
+        wheelMat
+      );
+      tyre.rotation.z = Math.PI / 2;
+      wheel.add(tyre);
 
-  // Lights
-  ctx.fillStyle = "#fff7b0";
-  ctx.fillRect(-41, -11, 7, 9);
-  ctx.fillStyle = "#ff394b";
-  ctx.fillRect(35, -11, 7, 9);
+      const rim = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.25, 0.25, 0.3, 12),
+        rimMat
+      );
+      rim.rotation.z = Math.PI / 2;
+      wheel.add(rim);
 
-  ctx.restore();
-}
-
-function drawScenery() {
-  ctx.clearRect(0, 0, width, height);
-
-  // Sky
-  let sky = ctx.createLinearGradient(0, 0, 0, height);
-  sky.addColorStop(0, "#69bff2");
-  sky.addColorStop(0.65, "#d5edbd");
-  sky.addColorStop(1, "#6b9d55");
-  ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, width, height);
-
-  // Sun
-  ctx.fillStyle = "#fff2a6";
-  ctx.beginPath();
-  ctx.arc(width * 0.8, height * 0.17, 42, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Mountains
-  ctx.fillStyle = "#638c78";
-  ctx.beginPath();
-  ctx.moveTo(0, height * 0.48);
-  ctx.lineTo(width * 0.2, height * 0.22);
-  ctx.lineTo(width * 0.43, height * 0.48);
-  ctx.lineTo(width * 0.7, height * 0.2);
-  ctx.lineTo(width, height * 0.48);
-  ctx.fill();
-
-  // Grass
-  ctx.fillStyle = "#60964d";
-  ctx.fillRect(0, height * 0.48, width, height);
-
-  // Road
-  const roadWidth = Math.min(width * 0.65, 600);
-  const roadLeft = width / 2 - roadWidth / 2;
-  ctx.fillStyle = "#555b65";
-  ctx.fillRect(roadLeft, height * 0.47, roadWidth, height * 0.53);
-
-  // Road edges
-  ctx.fillStyle = "#f8f1d4";
-  ctx.fillRect(roadLeft, height * 0.47, 7, height * 0.53);
-  ctx.fillRect(roadLeft + roadWidth - 7, height * 0.47, 7, height * 0.53);
-
-  // Moving road markings
-  ctx.strokeStyle = "#fff1be";
-  ctx.lineWidth = 6;
-  ctx.setLineDash([35, 35]);
-  ctx.lineDashOffset = -roadOffset;
-  ctx.beginPath();
-  ctx.moveTo(width / 2, height * 0.48);
-  ctx.lineTo(width / 2, height);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Trees
-  for (let i = 0; i < 10; i++) {
-    const y = height * 0.49 + ((i * 95 + roadOffset * 1.4) % (height * 0.5));
-    const side = i % 2 === 0 ? -1 : 1;
-    const x = width / 2 + side * (roadWidth * 0.55 + 35 + (i % 3) * 22);
-
-    ctx.fillStyle = "#684b34";
-    ctx.fillRect(x - 5, y - 35, 10, 42);
-    ctx.fillStyle = i % 2 ? "#236b40" : "#31834c";
-    ctx.beginPath();
-    ctx.arc(x, y - 42, 25, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function drawCharacters() {
-  const boy = sprites["boy-standing"];
-  const girl = sprites["girl-standing"];
-
-  // Boy and girl following in separate cars
-  drawCar(width / 2 + playerX, height * 0.79, "#ed3157", true);
-  drawCar(width / 2 + 100, height * 0.65, "#268de0");
-
-  // Character sprites in cars
-  if (boy.complete && boy.naturalWidth) {
-    ctx.drawImage(boy, width / 2 + playerX - 22, height * 0.79 - 58, 44, 48);
-  }
-  if (girl.complete && girl.naturalWidth) {
-    ctx.drawImage(girl, width / 2 + 100 - 22, height * 0.65 - 58, 44, 48);
-  }
-}
-
-function draw() {
-  drawScenery();
-  drawCharacters();
-}
-
-function update(time) {
-  if (!running) return;
-
-  const delta = Math.min((time - lastTime) / 16.67 || 1, 2);
-  lastTime = time;
-
-  if (!ending) {
-    if (keys.left) playerX -= 4 * delta;
-    if (keys.right) playerX += 4 * delta;
-
-    playerX = Math.max(-width * 0.2, Math.min(width * 0.2, playerX));
-
-    distance += 0.7 * delta;
-    roadOffset = (roadOffset + 4 * delta) % 70;
-
-    document.getElementById("distance").textContent = Math.floor(distance);
-
-    if (distance >= 700) {
-      finishJourney();
+      car.add(wheel);
+      wheels.push(wheel);
     }
   }
 
-  draw();
-  requestAnimationFrame(update);
+  car.userData.wheels = wheels;
+  scene.add(car);
+  return car;
 }
 
-function finishJourney() {
-  if (ending) return;
-  ending = true;
-  document.getElementById("controls").classList.add("hidden");
-  document.getElementById("ending").style.display = "flex";
+const boyCar = createCar(0xe92d4f);
+const girlCar = createCar(0x218bd8);
+
+boyCar.position.set(-3, 0, 5);
+girlCar.position.set(3, 0, 20);
+
+/* -----------------------------
+   7. LOAD YOUR PNG CHARACTERS
+------------------------------ */
+
+const textureLoader = new THREE.TextureLoader();
+const sprites = {};
+
+const characterFiles = {
+  boy: "boy-standing.png",
+  boyWalking: "boy-walking.png",
+  boyFlowers: "boy-with-flowers.png",
+  boyKneeling: "boy-proposal-kneeling.png",
+  girl: "girl-standing.png",
+  girlWalking: "girl-walking.png",
+  girlFlowers: "girl-receiving-flowers.png",
+  girlOpen: "girl-open-arms.png"
+};
+
+for (const [key, file] of Object.entries(characterFiles)) {
+  textureLoader.load(
+    "characters/" + file,
+    texture => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const sprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: texture,
+          transparent: true,
+          depthWrite: false
+        })
+      );
+      sprite.scale.set(2.3, 3.3, 1);
+      sprite.visible = false;
+      scene.add(sprite);
+      sprites[key] = sprite;
+    },
+    undefined,
+    error => console.warn("Could not load character:", file, error)
+  );
 }
 
-document.getElementById("start").addEventListener("click", () => {
+function showSprite(key, x, z, scale = 1) {
+  const sprite = sprites[key];
+  if (!sprite) return;
+  sprite.visible = true;
+  sprite.position.set(x, 1.7, z);
+  sprite.scale.set(2.3 * scale, 3.3 * scale, 1);
+}
+
+function hideCharacters() {
+  Object.values(sprites).forEach(sprite => {
+    sprite.visible = false;
+  });
+}
+
+/* -----------------------------
+   8. GAME STORY AND MOVEMENT
+------------------------------ */
+
+let gameStarted = false;
+let gameFinished = false;
+let stage = "ready";
+let distance = 0;
+let steering = 0;
+let clock = new THREE.Clock();
+
+const status = document.getElementById("status");
+const sceneText = document.getElementById("sceneText");
+
+function startGame() {
   document.getElementById("message").classList.add("hidden");
   document.getElementById("controls").classList.remove("hidden");
-  running = true;
-  lastTime = performance.now();
-  requestAnimationFrame(update);
-});
 
-document.getElementById("yes").addEventListener("click", () => {
-  document.getElementById("ending").innerHTML = `
-    <div class="ending-content">
-      <h1>She Said YES! ❤️</h1>
-      <p>And the best journey is the one we take together.</p>
-      <h1>Forever & Always 🌹</h1>
-      <p>With love, from your Sabin.</p>
-    </div>`;
-});
+  gameStarted = true;
+  stage = "driving";
+  clock.start();
 
-function setKey(key, value) {
-  keys[key] = value;
+  status.textContent = "Enjoy the drive ❤️";
+  sceneText.textContent = "A beautiful journey begins...";
 }
 
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") setKey("left", true);
-  if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") setKey("right", true);
+document.getElementById("start").addEventListener("click", startGame);
+
+function updateCarWheels(car, movement) {
+  car.userData.wheels.forEach(wheel => {
+    wheel.rotation.x += movement;
+  });
+}
+
+function drive(delta) {
+  const speed = 18 * delta;
+
+  boyCar.position.z -= speed;
+  girlCar.position.z -= speed;
+
+  // Girl follows slightly behind
+  girlCar.position.z = boyCar.position.z + 15;
+
+  // Steering
+  boyCar.position.x += steering * 12 * delta;
+  boyCar.position.x = THREE.MathUtils.clamp(boyCar.position.x, -5, 5);
+
+  girlCar.position.x = THREE.MathUtils.lerp(
+    girlCar.position.x,
+    boyCar.position.x + 6,
+    0.025
+  );
+
+  updateCarWheels(boyCar, speed * 0.25);
+  updateCarWheels(girlCar, speed * 0.25);
+
+  distance += speed;
+
+  if (distance > 145) {
+    stage = "station";
+    status.textContent = "At the petrol station";
+    sceneText.textContent = "Let's stop here and wait for her...";
+  }
+}
+
+/* -----------------------------
+   9. CINEMATIC STORY SEQUENCE
+------------------------------ */
+
+let sceneTimer = 0;
+
+function startStationScene() {
+  // Boy parks under the petrol station canopy
+  boyCar.position.set(10, 0, -145);
+  girlCar.position.set(14, 0, -135);
+
+  stage = "waiting";
+  sceneTimer = 0;
+
+  status.textContent = "Waiting for her ❤️";
+  sceneText.textContent = "He parks and waits for someone special...";
+}
+
+function updateStory(delta) {
+  if (stage === "station") {
+    startStationScene();
+    return;
+  }
+
+  if (stage === "driving" || stage === "ready" || stage === "finished") return;
+
+  sceneTimer += delta;
+
+  if (stage === "waiting") {
+    if (sceneTimer < 3) {
+      sceneText.textContent = "And here she comes... ❤️";
+      return;
+    }
+
+    stage = "meeting";
+    sceneTimer = 0;
+    hideCharacters();
+    status.textContent = "Together at last";
+    sceneText.textContent = "They finally meet.";
+  }
+
+  if (stage === "meeting") {
+    boyCar.visible = false;
+    girlCar.visible = false;
+
+    if (sceneTimer < 2) {
+      showSprite("boyWalking", 8, -145);
+      showSprite("girlWalking", 13, -145);
+      sceneText.textContent = "He walks towards her...";
+    } else {
+      stage = "flowers";
+      sceneTimer = 0;
+      hideCharacters();
+    }
+  }
+
+  if (stage === "flowers") {
+    showSprite("boyFlowers", 9, -145);
+    showSprite("girl", 13, -145);
+    sceneText.textContent = "He brought something special for her. 🌹";
+
+    if (sceneTimer > 4) {
+      stage = "proposal";
+      sceneTimer = 0;
+      hideCharacters();
+    }
+  }
+
+  if (stage === "proposal") {
+    showSprite("boyKneeling", 9, -145);
+    showSprite("girlFlowers", 13, -145);
+    status.textContent = "A special question...";
+    sceneText.textContent = "Will you stay with me on every journey? ❤️";
+
+    if (sceneTimer > 5) {
+      stage = "acceptance";
+      sceneTimer = 0;
+      hideCharacters();
+    }
+  }
+
+  if (stage === "acceptance") {
+    showSprite("boy", 10, -145);
+    showSprite("girlOpen", 12, -145);
+    status.textContent = "She said YES!";
+    sceneText.textContent = "She accepts... and they embrace. ❤️";
+
+    if (sceneTimer > 5) {
+      stage = "finished";
+      gameFinished = true;
+      document.getElementById("controls").classList.add("hidden");
+      document.getElementById("ending").style.display = "flex";
+    }
+  }
+}
+
+/* -----------------------------
+   10. CAMERA
+------------------------------ */
+
+function updateCamera(delta) {
+  let target;
+
+  if (stage === "driving" || stage === "ready") {
+    target = new THREE.Vector3(
+      boyCar.position.x,
+      1,
+      boyCar.position.z
+    );
+
+    const desired = new THREE.Vector3(
+      boyCar.position.x,
+      7,
+      boyCar.position.z + 13
+    );
+
+    camera.position.lerp(desired, 3 * delta);
+    camera.lookAt(target);
+  } else {
+    const focus = new THREE.Vector3(12, 1.8, -145);
+    const desired = new THREE.Vector3(23, 8, -127);
+
+    camera.position.lerp(desired, 2 * delta);
+    camera.lookAt(focus);
+  }
+}
+
+/* -----------------------------
+   11. INPUT
+------------------------------ */
+
+document.addEventListener("keydown", event => {
+  if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+    steering = -1;
+  }
+  if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+    steering = 1;
+  }
 });
 
-document.addEventListener("keyup", e => {
-  if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") setKey("left", false);
-  if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") setKey("right", false);
+document.addEventListener("keyup", event => {
+  if (
+    ["ArrowLeft", "ArrowRight", "a", "d"].includes(event.key) ||
+    ["a", "d"].includes(event.key.toLowerCase())
+  ) {
+    steering = 0;
+  }
 });
 
-["left", "right"].forEach(key => {
-  const button = document.getElementById(key);
-  button.addEventListener("pointerdown", () => setKey(key, true));
-  button.addEventListener("pointerup", () => setKey(key, false));
-  button.addEventListener("pointerleave", () => setKey(key, false));
-  button.addEventListener("pointercancel", () => setKey(key, false));
+function bindButton(id, direction) {
+  const button = document.getElementById(id);
+  button.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    steering = direction;
+  });
+  button.addEventListener("pointerup", () => steering = 0);
+  button.addEventListener("pointerleave", () => steering = 0);
+  button.addEventListener("pointercancel", () => steering = 0);
+}
+
+bindButton("left", -1);
+bindButton("right", 1);
+
+/* -----------------------------
+   12. RESTART
+------------------------------ */
+
+document.getElementById("restart").addEventListener("click", () => {
+  location.reload();
 });
 
-draw();
+/* -----------------------------
+   13. MAIN ANIMATION LOOP
+------------------------------ */
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const delta = Math.min(clock.getDelta(), 0.05);
+
+  if (gameStarted && !gameFinished) {
+    if (stage === "driving") drive(delta);
+    updateStory(delta);
+  }
+
+  updateCamera(delta);
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+/* -----------------------------
+   14. RESIZE
+------------------------------ */
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 </body>
 </html>

@@ -146,6 +146,8 @@ const DOLLS = [
   ["🦊","Can we start again, softly?"]
 ];
 // Put your photos in a "photos" folder next to this file.
+// Photo names are looked up in the sorry folder first (same folder as this file),
+// then on the main site (root). Just write the file name. Use a full path starting with "/" to force one place.
 const PHOTOS = [
   {src:"31aaed01-7a09-451c-afdd-1c51a7cacda4.jpeg",cap:"You, my favourite person",tag:"For you"},
   {src:"936a08d6-ffbc-4aea-9d12-0dd1c1e4539f.jpeg",cap:"This smile fixes my whole day",tag:"For you"},
@@ -188,20 +190,24 @@ function showDoll(i){
 $("#stage").addEventListener("click",()=>{if(di<DOLLS.length-1)showDoll(di+1);else showDoll(0)});
 
 /* photos */
-let pi=0;
+
+$("#pol").addEventListener("click",()=>showPhoto((pi+1)%PHOTOS.length));
+  let pi=0;
 function showPhoto(i){
   pi=i;const p=PHOTOS[i],im=$("#pim");
   im.innerHTML="";
   const img=new Image();img.alt=p.cap;
-  img.onerror=()=>{im.textContent="📷"};
-  img.src=p.src;im.appendChild(img);
+  const n=encodeURI(p.src);
+  const tries=/^(\/|https?:)/.test(p.src)?[n]:["./"+n,"/"+n];
+  let t=0;
+  img.onerror=()=>{t++;if(t<tries.length)img.src=tries[t];else im.textContent="📷"};
+  img.src=tries[0];im.appendChild(img);
   $("#pcap").textContent=p.cap;$("#tag").textContent=p.tag;
   const pol=$("#pol");
   pol.style.setProperty("--r",(i%2?-8:8)+"deg");pol.style.setProperty("--r2",(i%2?2:-2)+"deg");
   pol.classList.remove("in");void pol.offsetWidth;pol.classList.add("in");
   if(i===PHOTOS.length-1)$("#photosDone").classList.remove("hide");
 }
-$("#pol").addEventListener("click",()=>showPhoto((pi+1)%PHOTOS.length));
 
 /* hearts */
 function hearts(n,x,y){

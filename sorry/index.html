@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2a0f3a">
+<title>Sorry, Pushpa 🧸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#2a0f3a;--bg2:#531a5c;--ink:#ffe6ec;--rose:#ff5c8a;--butter:#ffe08a;--card:#fff3f6;--cardink:#3b1245}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:"Baloo 2","Noto Sans Devanagari",system-ui,sans-serif;color:var(--ink);background:radial-gradient(120% 90% at 50% 0%,var(--bg2),var(--bg));overflow:hidden;padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0)}
+.scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:64px 24px 40px;text-align:center;opacity:0;pointer-events:none;transform:translateY(24px) scale(.97);transition:opacity .6s,transform .6s}
+.scene.on{opacity:1;pointer-events:auto;transform:none}
+h1{font-size:clamp(2.6rem,13vw,4.4rem);font-weight:800;line-height:1}
+h2{font-size:clamp(1.6rem,7vw,2.2rem);font-weight:800;line-height:1.1}
+p{font-size:1.15rem;line-height:1.5;max-width:30ch}
+.btn{font:inherit;font-weight:700;font-size:1.1rem;border:0;border-radius:999px;padding:13px 30px;background:var(--rose);color:#fff;cursor:pointer;box-shadow:0 6px 0 #b8325a;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #b8325a}
+.btn.alt{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.alt:active{transform:scale(.97)}
+.row{display:flex;flex-direction:column;gap:12px;align-items:center}
+#dots{position:fixed;top:calc(18px + env(safe-area-inset-top,0));left:0;right:0;display:flex;justify-content:center;gap:8px;z-index:5}
+#dots i{width:9px;height:9px;border-radius:50%;background:#ffffff40;transition:.3s}
+#dots i.on{background:var(--butter);transform:scale(1.35)}
+#mus{position:fixed;top:calc(8px + env(safe-area-inset-top,0));right:12px;z-index:6;background:#ffffff1f;border:0;color:var(--ink);font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer}
+
+/* scene 0: swinging sign */
+.hold{position:relative;height:250px;width:240px}
+.hold .bear{font-size:7rem;position:absolute;top:0;left:50%;transform:translateX(-50%);animation:bob 2.4s ease-in-out infinite}
+.sign{position:absolute;top:118px;left:50%;width:190px;margin-left:-95px;transform-origin:50% -10px;animation:swing 2.8s ease-in-out infinite;background:var(--butter);color:var(--cardink);font-weight:800;font-size:2.3rem;padding:8px 0 10px;border-radius:14px;box-shadow:0 10px 24px #0005}
+.sign::before,.sign::after{content:"";position:absolute;top:-34px;width:3px;height:36px;background:var(--butter)}
+.sign::before{left:36px;transform:rotate(14deg)}.sign::after{right:36px;transform:rotate(-14deg)}
+@keyframes swing{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+.np{font-size:1.5rem;opacity:.9}
+
+/* letter */
+.letter{background:var(--card);color:var(--cardink);border-radius:18px;padding:24px 22px;max-width:340px;text-align:left;box-shadow:0 14px 34px #0006;transform:rotate(-1.2deg)}
+.letter p{max-width:none;font-size:1.08rem;margin-bottom:10px}
+.letter .sig{font-weight:800;text-align:right;margin:0}
+
+/* dolls */
+.stage{display:flex;flex-direction:column;align-items:center;gap:14px;min-height:300px;justify-content:center;width:100%}
+.doll{font-size:7.5rem;line-height:1}
+.bubble{position:relative;background:var(--card);color:var(--cardink);font-weight:700;font-size:1.25rem;padding:14px 20px;border-radius:20px;max-width:290px}
+.bubble::before{content:"";position:absolute;top:-10px;left:50%;margin-left:-10px;border:10px solid transparent;border-top:0;border-bottom-color:var(--card)}
+.stage.in .doll{animation:dollIn .6s cubic-bezier(.2,1.5,.4,1)}
+.stage.in .bubble{animation:bubIn .5s .15s both}
+@keyframes dollIn{from{transform:translateX(120%) rotate(25deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes bubIn{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+
+/* photos */
+.pol{background:#fff;padding:12px 12px 10px;border-radius:6px;box-shadow:0 14px 34px #0007;width:min(78vw,300px);color:var(--cardink)}
+.pol .im{aspect-ratio:1;background:#f4d6de;display:flex;align-items:center;justify-content:center;font-size:4rem;overflow:hidden}
+.pol img{width:100%;height:100%;object-fit:cover;display:block}
+.pol .cap{font-weight:700;padding-top:10px;font-size:1.05rem;min-height:2.4em}
+.pol.in{animation:polIn .7s cubic-bezier(.2,1.2,.4,1)}
+@keyframes polIn{from{transform:translateY(60px) rotate(var(--r,6deg)) scale(.85);opacity:0}to{transform:rotate(var(--r2,-2deg));opacity:1}}
+.tag{font-weight:800;color:var(--butter);font-size:1.3rem;min-height:1.6em}
+
+/* finale */
+.hugs{width:230px;height:14px;border-radius:99px;background:#ffffff26;overflow:hidden}
+.hugs b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--butter));transition:width .25s}
+#tbear{font-size:7rem;background:none;border:0;cursor:pointer;line-height:1}
+#tbear.pop{animation:pop .3s}
+@keyframes pop{50%{transform:scale(1.18) rotate(-6deg)}}
+.hide{display:none!important}
+.heart{position:fixed;font-size:1.8rem;pointer-events:none;z-index:9;animation:fly 1.6s ease-out forwards}
+@keyframes fly{from{opacity:1;transform:translateY(0) scale(.6)}to{opacity:0;transform:translateY(-240px) scale(1.4)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01s!important}}
+@media (max-height:640px){.hold{transform:scale(.8)}.doll,#tbear{font-size:5.5rem}}
+</style>
+</head>
+<body>
+<div id="dots"></div>
+<button id="mus" aria-label="Music">🎵</button>
+
+<!-- 1. sorry -->
+<section class="scene on">
+  <div class="hold"><div class="bear">🧸</div><div class="sign">sorry</div></div>
+  <h1>Sorry, Pushpa.</h1>
+  <p class="np">मलाई माफ गरिदेऊ 🥺</p>
+  <button class="btn" data-next>Open</button>
+</section>
+
+<!-- 2. letter -->
+<section class="scene">
+  <h2>Before anything else</h2>
+  <div class="letter" id="letter"></div>
+  <button class="btn" data-next>Keep going</button>
+</section>
+
+<!-- 3. dolls -->
+<section class="scene" id="s-dolls">
+  <h2>My dolls have something to say</h2>
+  <div class="stage" id="stage"><div class="doll"></div><div class="bubble"></div></div>
+  <p style="opacity:.7;font-size:.95rem">tap the doll for the next one</p>
+  <button class="btn hide" id="dollsDone" data-next>Show me more</button>
+</section>
+
+<!-- 4. photos -->
+<section class="scene" id="s-photos">
+  <div class="tag" id="tag"></div>
+  <div class="pol" id="pol"><div class="im" id="pim"></div><div class="cap" id="pcap"></div></div>
+  <p style="opacity:.7;font-size:.95rem">tap the photo for the next one</p>
+  <button class="btn hide" id="photosDone" data-next>One last thing</button>
+</section>
+
+<!-- 5. finale -->
+<section class="scene" id="s-end">
+  <div id="ask">
+    <h2>Give my bear 10 hugs</h2>
+    <p style="margin:10px auto 0">Tap him. He’s been sad without you.</p>
+  </div>
+  <button id="tbear" aria-label="Hug the bear">🧸</button>
+  <div class="hugs" id="hugbar"><b></b></div>
+  <div id="q" class="hide">
+    <h2>Pushpa, can you forgive me?</h2>
+    <div class="row" style="margin-top:18px">
+      <button class="btn" id="yes">Yes, I forgive you 💗</button>
+      <button class="btn alt" id="talk">I need to talk first</button>
+    </div>
+  </div>
+  <div id="reply" class="hide"><h2 id="rt"></h2><p id="rp" style="margin:12px auto 0"></p></div>
+</section>
+
+<audio id="aud" loop preload="none" src="/leberch-soft-piano-soft-piano-music-504418.mp3"></audio>
+
+<script>
+/* ===== EDIT THESE ===== */
+const LETTER = [
+  "Pushpa, I can see I hurt you, and I’m truly sorry.",
+  "I may not fully understand everything yet, but I want to. I’d rather listen to you than defend myself.",
+  "You mean more to me than being right. म तिमीलाई माया गर्छु."
+];
+const DOLLS = [
+  ["🧸","I’m sorry I upset you."],
+  ["🐰","I want to understand, not just say sorry."],
+  ["🎎","You matter more to me than being right."],
+  ["🐼","I’ll listen first. Promise."],
+  ["🦊","Can we start again, softly?"]
+];
+// Put your photos in a "photos" folder next to this file.
+const PHOTOS = [
+  {src:"31aaed01-7a09-451c-afdd-1c51a7cacda4.jpeg",cap:"You, my favourite person",tag:"For you"},
+  {src:"936a08d6-ffbc-4aea-9d12-0dd1c1e4539f.jpeg",cap:"This smile fixes my whole day",tag:"For you"},
+  {src:"ChatGPT Image Aug 29, 2026, 09_45_44 PM.png",cap:"I’m lucky I know you",tag:"For you"},
+  {src:"Festive Portrait in the Nepalese Hills.png",cap:"Us, happy",tag:"For us"},
+  {src:"ChatGPT Image Aug 30, 2026, 05_38_37 PM.png",cap:"I want more of these days",tag:"For us"},
+  {src:"att._FVGr0-yJvnxyQzTD8Qu6sZre6sR6Hk34A0_kAXTP_w.jpg.jpeg",cap:"Us, always",tag:"For us"}
+];
+/* ====================== */
+const $=s=>document.querySelector(s);
+const scenes=[...document.querySelectorAll(".scene")];
+const dots=$("#dots");scenes.forEach(()=>dots.appendChild(document.createElement("i")));
+let cur=0;
+function go(n){
+  scenes[cur].classList.remove("on");cur=n;scenes[n].classList.add("on");
+  [...dots.children].forEach((d,i)=>d.classList.toggle("on",i===n));
+  if(n===2)showDoll(0);if(n===3)showPhoto(0);
+}
+go(0);
+document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>{
+  if(cur===0)playMusic();go(cur+1);
+}));
+
+$("#letter").innerHTML=LETTER.map(t=>"<p>"+t+"</p>").join("")+'<p class="sig">— Sabin 🧸</p>';
+
+/* music */
+const aud=$("#aud");let on=false;
+function playMusic(){aud.volume=.5;aud.play().then(()=>{on=true;$("#mus").textContent="🎵"}).catch(()=>{})}
+$("#mus").addEventListener("click",()=>{if(on){aud.pause();on=false;$("#mus").textContent="🔇"}else playMusic()});
+
+/* dolls */
+let di=0;
+function showDoll(i){
+  di=i;const st=$("#stage");
+  st.querySelector(".doll").textContent=DOLLS[i][0];
+  st.querySelector(".bubble").textContent=DOLLS[i][1];
+  st.classList.remove("in");void st.offsetWidth;st.classList.add("in");
+  if(i===DOLLS.length-1)$("#dollsDone").classList.remove("hide");
+}
+$("#stage").addEventListener("click",()=>{if(di<DOLLS.length-1)showDoll(di+1);else showDoll(0)});
+
+/* photos */
+let pi=0;
+function showPhoto(i){
+  pi=i;const p=PHOTOS[i],im=$("#pim");
+  im.innerHTML="";
+  const img=new Image();img.alt=p.cap;
+  img.onerror=()=>{im.textContent="📷"};
+  img.src=p.src;im.appendChild(img);
+  $("#pcap").textContent=p.cap;$("#tag").textContent=p.tag;
+  const pol=$("#pol");
+  pol.style.setProperty("--r",(i%2?-8:8)+"deg");pol.style.setProperty("--r2",(i%2?2:-2)+"deg");
+  pol.classList.remove("in");void pol.offsetWidth;pol.classList.add("in");
+  if(i===PHOTOS.length-1)$("#photosDone").classList.remove("hide");
+}
+$("#pol").addEventListener("click",()=>showPhoto((pi+1)%PHOTOS.length));
+
+/* hearts */
+function hearts(n,x,y){
+  for(let i=0;i<n;i++){
+    const h=document.createElement("div");h.className="heart";
+    h.textContent=["💗","💖","💕","🧸"][i%4];
+    h.style.left=(x+(Math.random()*120-60))+"px";h.style.top=(y+(Math.random()*40-20))+"px";
+    h.style.animationDelay=(Math.random()*.3)+"s";
+    document.body.appendChild(h);setTimeout(()=>h.remove(),2100);
+  }
+}
+
+/* finale */
+let hugs=0;const tb=$("#tbear");
+tb.addEventListener("click",e=>{
+  if(hugs>=10)return;hugs++;
+  $("#hugbar b").style.width=hugs*10+"%";
+  tb.classList.remove("pop");void tb.offsetWidth;tb.classList.add("pop");
+  hearts(2,e.clientX||innerWidth/2,e.clientY||innerHeight/2);
+  if(hugs===10){
+    setTimeout(()=>{$("#ask").classList.add("hide");tb.classList.add("hide");$("#hugbar").classList.add("hide");$("#q").classList.remove("hide")},500);
+  }
+});
+function answer(t,p,burst){
+  $("#q").classList.add("hide");$("#rt").textContent=t;$("#rp").textContent=p;
+  $("#reply").classList.remove("hide");
+  if(burst)hearts(18,innerWidth/2,innerHeight*.6);
+}
+$("#yes").addEventListener("click",()=>answer("Thank you, Pushpa 💗","I’ll make it up to you, starting with listening.",true));
+$("#talk").addEventListener("click",()=>answer("That’s okay 🤍","Take all the time you need. I’m here, and I’ll listen whenever you’re ready.",false));
+</script>
+</body>
+</html>
